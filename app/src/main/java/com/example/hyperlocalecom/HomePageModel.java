@@ -34,5 +34,7 @@ public class HomePageModel  {
     }
 
     ////////////Horizontal product layout
+
+    //////home page model
     
 }
