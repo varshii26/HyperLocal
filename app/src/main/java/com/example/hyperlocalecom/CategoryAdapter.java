@@ -1,5 +1,6 @@
 package com.example.hyperlocalecom;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         String cIcon = categoryModelList.get(position).getCategoryIconLink();
         String cName = categoryModelList.get(position).getCategoryName();
 
-        viewHolder.setCategoryName(cName);
+        viewHolder.setCategory(cName,position);
     }
 
     @Override
@@ -58,8 +59,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         }
 
-        private void setCategoryName(String name){
+        private void setCategory(final String name,int position){
+
             categoryName.setText(name);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(position!=0) {
+                        Intent categoryIntent = new Intent(itemView.getContext(), CategoryActivity.class);
+
+                        categoryIntent.putExtra("CategoryName", name);
+                        itemView.getContext().startActivity(categoryIntent);
+                    }
+
+                }
+            });
         }
     }
 }
