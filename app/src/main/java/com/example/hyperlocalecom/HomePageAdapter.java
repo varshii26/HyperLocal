@@ -16,7 +16,7 @@ import java.util.List;
 
 public class HomePageAdapter extends RecyclerView.Adapter {
     private  int type;
-
+///cmnt
     private List <HomePageModel> homePageModelList;
 
     public HomePageAdapter(List<HomePageModel> homePageModelList) {
