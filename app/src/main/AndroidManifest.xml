@@ -11,8 +11,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HyperlocalEcom"
-        >
+        android:theme="@style/Theme.HyperlocalEcom">
+        <activity
+            android:name=".ProductDetailsActivity"
+            android:exported="false" />
         <activity
             android:name=".CategoryActivity"
             android:exported="false" />
