@@ -1,6 +1,7 @@
 package com.example.hyperlocalecom;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class ProductDetailsActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
+
     private ViewPager productImagesViewPager;
     private TabLayout viewpagerIndicator;
 
@@ -33,14 +34,13 @@ public class ProductDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        setSupportActionBar(binding.appBarMain.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        productImagesViewPager = findViewById(R.id.product_images_viewpager);
+        productImagesViewPager = (ViewPager)findViewById(R.id.product_images_viewpager);
         viewpagerIndicator = findViewById(R.id.viewpager_indicator);
         addToWishlistBtn = findViewById(R.id.add_to_wishlist_btn);
 
