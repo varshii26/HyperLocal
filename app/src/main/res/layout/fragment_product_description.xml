@@ -10,12 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-         veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-
-
-
-         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-          dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        android:text="Set of 4 packet diaries\n\n
+Pocket Diary : A small book in which people can write down your thoughts and their appointments so that they can remember what they are supposed to be doing each day.\n\n
+Easy to carry and keep \n\n
+Recyclable"
         android:textColor="#000000" />
 </FrameLayout>

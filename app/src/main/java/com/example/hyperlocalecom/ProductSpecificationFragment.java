@@ -76,11 +76,11 @@ public class ProductSpecificationFragment extends Fragment {
         productSpecificationRecyclerView.setLayoutManager(linearLayoutManager);
         List<ProductSpecificationModel> productSpecificationModelList = new ArrayList<>();
         productSpecificationModelList.add(new ProductSpecificationModel("Pages","100"));
+        productSpecificationModelList.add(new ProductSpecificationModel("Dimensions","5.4 x 3 inches"));
+        productSpecificationModelList.add(new ProductSpecificationModel("Colors","KRAFT, PINK, GREEN & GREY"));
+        /*productSpecificationModelList.add(new ProductSpecificationModel("Pages","100"));
         productSpecificationModelList.add(new ProductSpecificationModel("Pages","100"));
-        productSpecificationModelList.add(new ProductSpecificationModel("Pages","100"));
-        productSpecificationModelList.add(new ProductSpecificationModel("Pages","100"));
-        productSpecificationModelList.add(new ProductSpecificationModel("Pages","100"));
-        productSpecificationModelList.add(new ProductSpecificationModel("Pages","100"));
+        productSpecificationModelList.add(new ProductSpecificationModel("Pages","100"));*/
 
         ProductSpecificationAdapter productSpecificationAdapter = new ProductSpecificationAdapter(productSpecificationModelList);
         productSpecificationRecyclerView.setAdapter(productSpecificationAdapter);
