@@ -29,9 +29,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nunc sed id semper risus. Facilisi nullam vehicula ipsum a arcu cursus. Vestibulum sed arcu non odio. At quis risus sed vulputate odio ut. Accumsan sit amet nulla facilisi morbi tempus iaculis. Risus ultricies tristique nulla aliquet enim tortor at auctor. Id diam maecenas ultricies mi. Varius quam quisque id diam vel quam. Lorem dolor sed vere sollla pharetra diansectetur purus ut faucibus pulvinar elementum.
-
-Blandit turpis cursus in hac habitasse platea dictumst. Risus. Eleifenue elit. Pellentesque elit ullamcorper dignissim cras tincidunt lobortis."
+        android:text="Set of 4 packet diaries\n\n
+Pocket Diary : A small book in which people can write down your thoughts and their appointments so that they can remember what they are supposed to be doing each day.\n\n
+Easy to carry and keep \n\n
+Recyclable"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
