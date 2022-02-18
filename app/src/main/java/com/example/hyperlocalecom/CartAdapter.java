@@ -83,7 +83,7 @@ public class CartAdapter extends RecyclerView.Adapter {
             cuttedPrice.setText(cuttedPriceText);
             if(offersAppliedNo > 0){
                 offersApplied.setVisibility(View.VISIBLE);
-                offersApplied.setText(offersAppliedNo + "Offers applied");
+                offersApplied.setText(offersAppliedNo + " Offers applied");
             }else{
                 offersApplied.setVisibility(View.INVISIBLE);
             }
