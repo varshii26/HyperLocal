@@ -65,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-
-
         DrawerLayout drawer = binding.drawerLayout;
 
         NavigationView navigationView = binding.navView;
@@ -76,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
                 .build();
-       // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         //NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         //NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.getMenu().getItem(0).setChecked(true);
@@ -154,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
 
     }
-
+}
 
 
     /*private static final int GALLERY_INTENT_CODE = 1023 ;
@@ -287,4 +285,3 @@ public class MainActivity extends AppCompatActivity {
     }
 
 */
-}
