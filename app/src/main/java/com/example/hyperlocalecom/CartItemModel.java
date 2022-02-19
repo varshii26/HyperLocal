@@ -2,6 +2,8 @@ package com.example.hyperlocalecom;
 
 public class CartItemModel {
 
+    //CART ITEMS
+
     public static final int CART_ITEM = 0;
     public static final int TOTOAL_AMOUNT =1;
 
