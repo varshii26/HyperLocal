@@ -48,6 +48,14 @@ import javax.annotation.Nullable;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int HOME_FRAGMENT = 0;
+    private static final int CART_FRAGMENT = 1;
+    private static int currentFragment=-1;
+    private NavigationView navigationView;
+
+    private TextView actionBarLogo;
+
+
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private FrameLayout frameLayout;
@@ -62,12 +70,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         setSupportActionBar(binding.appBarMain.toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
+        actionBarLogo = findViewById(R.id.action_bar_logo);
 
 
         DrawerLayout drawer = binding.drawerLayout;
 
-        NavigationView navigationView = binding.navView;
+        navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -80,13 +90,17 @@ public class MainActivity extends AppCompatActivity {
         navigationView.getMenu().getItem(0).setChecked(true);
         frameLayout = findViewById(R.id.main_framelayout);
 
-        setFragment(new HomeFragment());
+        setFragment(new HomeFragment(), HOME_FRAGMENT);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        if (currentFragment == HOME_FRAGMENT) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            getMenuInflater().inflate(R.menu.main, menu);
+        }
+
         return true;
     }
 
@@ -99,10 +113,20 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.mainNotificationIcon) {
             return true;
         } else if (id == R.id.mainCartIcon) {
+            myCart();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void myCart() {
+        actionBarLogo.setVisibility(View.GONE);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setTitle("My Cart");
+        invalidateOptionsMenu();
+        setFragment(new MyCartFragment(), CART_FRAGMENT);
+        navigationView.getMenu().getItem(3).setChecked(true);
     }
 
  /*   @Override
@@ -127,11 +151,17 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.App) {
 
+            actionBarLogo.setVisibility(View.VISIBLE);
+            invalidateOptionsMenu();
+            setFragment(new HomeFragment(), HOME_FRAGMENT);
+
+
         } else if (id == R.id.Orders) {
 
         } else if (id == R.id.Favourites) {
 
         } else if (id == R.id.Cart) {
+            myCart();
 
         } else if (id == R.id.Account) {
 
@@ -146,11 +176,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(frameLayout.getId(), fragment);
-        fragmentTransaction.commit();
+    private void setFragment(Fragment fragment, int fragmentNo) {
+        if (fragmentNo != currentFragment) {
+            currentFragment = fragmentNo;
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
+            fragmentTransaction.replace(frameLayout.getId(), fragment);
+            fragmentTransaction.commit();
 
+        }
     }
 }
 

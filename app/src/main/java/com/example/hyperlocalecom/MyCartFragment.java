@@ -3,10 +3,15 @@ package com.example.hyperlocalecom;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +51,8 @@ public class MyCartFragment extends Fragment {
         return fragment;
     }
 
+    private RecyclerView cartItemsRecyclerView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +66,23 @@ public class MyCartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_cart, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_cart, container, false);
+
+        cartItemsRecyclerView = view.findViewById(R.id.cart_items_recyclerview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        cartItemsRecyclerView.setLayoutManager(layoutManager);
+
+        List<CartItemModel> cartItemModelList = new ArrayList<>();
+        cartItemModelList.add(new CartItemModel(0,R.drawable.assorted_pocket_diary_1,"Diary","Rs.259/-","Rs.299/-",0,2));
+        cartItemModelList.add(new CartItemModel(0,R.drawable.assorted_pocket_diary_1,"Diary","Rs.259/-","Rs.299/-",1,3));
+        cartItemModelList.add(new CartItemModel(0,R.drawable.assorted_pocket_diary_1,"Diary","Rs.259/-","Rs.299/-",0,5));
+        cartItemModelList.add(new CartItemModel(1,"Price (3 items)","Rs.899/-","Rs.100/-","Rs.999/-","Rs. 212"));
+
+        CartAdapter cartAdapter = new CartAdapter(cartItemModelList);
+        cartItemsRecyclerView.setAdapter(cartAdapter);
+        cartAdapter.notifyDataSetChanged();
+
+        return view;
     }
 }

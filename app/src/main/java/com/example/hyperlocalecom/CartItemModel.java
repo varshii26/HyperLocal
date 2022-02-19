@@ -5,6 +5,8 @@ public class CartItemModel {
     public static final int CART_ITEM = 0;
     public static final int TOTOAL_AMOUNT =1;
 
+    private int type;
+
     public int getType() {
         return type;
     }
@@ -13,7 +15,7 @@ public class CartItemModel {
         this.type = type;
     }
 
-    private int type;
+
 
     ///////// cart item
     private int productImage;
@@ -85,33 +87,35 @@ public class CartItemModel {
 
     ///////// cart total
 
-    private int totalItems;
-    private String totalAmount;
+    private String totalItems;
+    private String totalItemPrice;
     private String deliveryPrice;
     private String savedAmount;
+    private  String totalAmount;
 
-    public CartItemModel(int type, int totalItems, String totalAmount, String deliveryPrice, String savedAmount) {
+    public CartItemModel(int type, String totalItems, String totalItemPrice, String deliveryPrice,String totalAmount, String savedAmount) {
         this.type = type;
         this.totalItems = totalItems;
-        this.totalAmount = totalAmount;
+        this.totalItemPrice = totalItemPrice;
         this.deliveryPrice = deliveryPrice;
+        this.totalAmount = totalAmount;
         this.savedAmount = savedAmount;
     }
 
-    public int getTotalItems() {
+    public String getTotalItems() {
         return totalItems;
     }
 
-    public void setTotalItems(int totalItems) {
+    public void setTotalItems(String totalItems) {
         this.totalItems = totalItems;
     }
 
-    public String getTotalAmount() {
-        return totalAmount;
+    public String getTotalItemPrice() {
+        return totalItemPrice;
     }
 
-    public void setTotalAmount(String totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setTotalItemPrice(String totalItemPrice) {
+        this.totalItemPrice = totalItemPrice;
     }
 
     public String getDeliveryPrice() {
@@ -120,6 +124,14 @@ public class CartItemModel {
 
     public void setDeliveryPrice(String deliveryPrice) {
         this.deliveryPrice = deliveryPrice;
+    }
+
+    public String getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public String getSavedAmount() {
