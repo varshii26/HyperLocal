@@ -6,7 +6,6 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/App"
-
             android:title="My App" />
 
 
