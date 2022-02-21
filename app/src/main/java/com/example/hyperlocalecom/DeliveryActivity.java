@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ public class DeliveryActivity extends AppCompatActivity {
 
     private RecyclerView deliveryRecyclerview;
     private Button changeORaddNewAddressBtn;
+    public static final int SELECT_ADDRESS =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,15 @@ public class DeliveryActivity extends AppCompatActivity {
 
         deliveryRecyclerview = findViewById(R.id.delivery_recyclerview);
         changeORaddNewAddressBtn = findViewById(R.id.change_or_add_address_btn);
+
+        changeORaddNewAddressBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myAddressIntent = new Intent(DeliveryActivity.this,MyAddressesActivity.class);
+                myAddressIntent.putExtra("MODE",SELECT_ADDRESS);
+                startActivity(myAddressIntent);
+            }
+        });
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
