@@ -13,9 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HyperlocalEcom">
         <activity
+            android:name=".MyAddressesActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddAddressActivity"
             android:exported="false"
-            android:theme="@style/BlueProgressBar"/>
+            android:theme="@style/BlueProgressBar" />
         <activity
             android:name=".DeliveryActivity"
             android:exported="false" />
