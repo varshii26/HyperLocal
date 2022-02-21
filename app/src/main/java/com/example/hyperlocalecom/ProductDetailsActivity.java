@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.service.controls.actions.FloatAction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.hyperlocalecom.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,6 +30,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     private ViewPager productDetailsViewPager;
     private TabLayout productDetailsTablayout;
+
+    private Button buyNowBtn;
 
     private static boolean ALREADY_ADDED_TO_WISHLIST = false;
     private FloatingActionButton addToWishlistBtn;
@@ -47,8 +51,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
         viewpagerIndicator = findViewById(R.id.viewpager_indicator);
         addToWishlistBtn = findViewById(R.id.add_to_wishlist_btn);
 
-        productDetailsViewPager=findViewById(R.id.product_details_viewpager);
-        productDetailsTablayout=findViewById(R.id.product_details_tablayout);
+        productDetailsViewPager = findViewById(R.id.product_details_viewpager);
+        productDetailsTablayout = findViewById(R.id.product_details_tablayout);
+
+        buyNowBtn = findViewById(R.id.buy_now_btn);
 
         List<Integer> productImages = new ArrayList<>();
         productImages.add(R.drawable.assorted_pocket_diary_p4);
@@ -92,6 +98,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+
+        buyNowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent deliveryIntent = new Intent(ProductDetailsActivity.this, DeliveryActivity.class);
+                startActivity(deliveryIntent);
             }
         });
 
