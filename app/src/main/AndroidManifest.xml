@@ -13,13 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HyperlocalEcom">
         <activity
-            android:name=".ProductDetailsActivity"
-            android:parentActivityName=".MainActivity"
+            android:name=".OrderDetailsActivity"
             android:exported="false" />
         <activity
+            android:name=".ProductDetailsActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".CategoryActivity"
-            android:parentActivityName=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false"
@@ -33,7 +36,6 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

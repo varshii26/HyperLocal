@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int HOME_FRAGMENT = 0;
     private static final int CART_FRAGMENT = 1;
     private static final int ORDERS_FRAGMENT = 2;
+    private static final int WISHLIST_FRAGMENT = 3;
     ActionBarDrawerToggle actionBarDrawerToggle;
     private static int currentFragment = -1;
     private NavigationView navigationView;
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.getMenu().getItem(0).setChecked(true);
         frameLayout = findViewById(R.id.main_framelayout);
 
-        setFragment(new OrderDetailsFragment(), HOME_FRAGMENT);
+        setFragment(new HomeFragment(), HOME_FRAGMENT);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -116,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.Orders) {
                     goToFragment("My Order", new MyOrdersFragment(), ORDERS_FRAGMENT);
                 } else if (id == R.id.Favourites) {
+                    goToFragment("My Favorites",new MyWishlistFragment(),WISHLIST_FRAGMENT);
 
                 } else if (id == R.id.Cart) {
                     goToFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
@@ -135,6 +137,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if(drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+        }else{
+            if(currentFragment == HOME_FRAGMENT){
+                super.onBackPressed();
+            }else{
+                actionBarLogo.setVisibility(View.VISIBLE);
+                invalidateOptionsMenu();
+                setFragment(new HomeFragment(), HOME_FRAGMENT);
+                navigationView.getMenu().getItem(0).setChecked(true);
+            }
+
+
+        }
+
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         if (currentFragment == HOME_FRAGMENT) {
@@ -145,8 +167,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
-    public boolean onOptionsItemsSelected(MenuItem item) {
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.mainSearchIcon) {
@@ -157,9 +179,16 @@ public class MainActivity extends AppCompatActivity {
             goToFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
             return true;
         }
+        return super.onOptionsItemSelected(item);
+    }
+
+   /* public boolean onOptionsItemsSelected(MenuItem item) {
+
 
         return super.onOptionsItemSelected(item);
     }
+
+    */
 
     private void goToFragment(String title, Fragment fragment, int fragmentNo) {
         actionBarLogo.setVisibility(View.GONE);
