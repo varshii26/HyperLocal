@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CART_FRAGMENT = 1;
     private static final int ORDERS_FRAGMENT = 2;
     private static final int WISHLIST_FRAGMENT = 3;
+    private static final int ACCOUNT_FRAGMENT = 4;
     ActionBarDrawerToggle actionBarDrawerToggle;
     private static int currentFragment = -1;
     private NavigationView navigationView;
@@ -118,11 +119,10 @@ public class MainActivity extends AppCompatActivity {
                     goToFragment("My Order", new MyOrdersFragment(), ORDERS_FRAGMENT);
                 } else if (id == R.id.Favourites) {
                     goToFragment("My Favorites",new MyWishlistFragment(),WISHLIST_FRAGMENT);
-
                 } else if (id == R.id.Cart) {
                     goToFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
                 } else if (id == R.id.Account) {
-
+                    goToFragment("My Account",new MyAccountFragment(),ACCOUNT_FRAGMENT);
                 } else if (id == R.id.SignOut) {
 
                 }
