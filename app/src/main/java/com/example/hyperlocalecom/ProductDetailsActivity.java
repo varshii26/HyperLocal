@@ -1,5 +1,7 @@
 package com.example.hyperlocalecom;
 
+import static com.example.hyperlocalecom.MainActivity.showCart;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
@@ -128,6 +130,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
         } else if (id == R.id.mainSearchIcon) {
             return true;
         } else if (id == R.id.mainCartIcon) {
+            Intent cartIntent = new Intent(ProductDetailsActivity.this,MainActivity.class);
+            showCart = true;
+            startActivity(cartIntent);
             return true;
         }
 

@@ -1,5 +1,8 @@
 package com.example.hyperlocalecom;
 
+import static com.example.hyperlocalecom.RegisterActivity.setSignUpFragment;
+
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -53,8 +57,11 @@ public class MainActivity extends AppCompatActivity {
     private static final int ORDERS_FRAGMENT = 2;
     private static final int WISHLIST_FRAGMENT = 3;
     private static final int ACCOUNT_FRAGMENT = 4;
+
+    public static Boolean showCart = false;
+
     ActionBarDrawerToggle actionBarDrawerToggle;
-    private static int currentFragment = -1;
+    private int currentFragment = -1;
     private NavigationView navigationView;
 
     private TextView actionBarLogo;
@@ -64,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private FrameLayout frameLayout;
     MenuItem menuItem;
+
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +105,18 @@ public class MainActivity extends AppCompatActivity {
         navigationView.getMenu().getItem(0).setChecked(true);
         frameLayout = findViewById(R.id.main_framelayout);
 
-        setFragment(new HomeFragment(), HOME_FRAGMENT);
+        if(showCart){
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            goToFragment("My Cart", new MyCartFragment(),-2);
+        }else {
+            /*
+            actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.open,R.string.close);
+            drawer.addDrawerListener(actionBarDrawerToggle);
+            actionBarDrawerToggle.syncState();
+            */
+            setFragment(new HomeFragment(), HOME_FRAGMENT);
+        }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -144,16 +164,20 @@ public class MainActivity extends AppCompatActivity {
         }else{
             if(currentFragment == HOME_FRAGMENT){
                 super.onBackPressed();
-            }else{
-                actionBarLogo.setVisibility(View.VISIBLE);
-                invalidateOptionsMenu();
-                setFragment(new HomeFragment(), HOME_FRAGMENT);
-                navigationView.getMenu().getItem(0).setChecked(true);
+                currentFragment =- 1;
+            }else {
+                if (showCart) {
+                    showCart = false;
+                    finish();
+                } else {
+                    actionBarLogo.setVisibility(View.VISIBLE);
+                    invalidateOptionsMenu();
+                    setFragment(new HomeFragment(), HOME_FRAGMENT);
+                    navigationView.getMenu().getItem(0).setChecked(true);
+                }
+
             }
-
-
         }
-
     }
 
     @Override
@@ -176,8 +200,44 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.mainNotificationIcon) {
             return true;
         } else if (id == R.id.mainCartIcon) {
-            goToFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
+
+            Dialog signInDialog = new Dialog((MainActivity.this));
+            signInDialog.setContentView(R.layout.sign_in_dialog);
+            signInDialog.setCancelable(true);
+            signInDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            Button dialogSignInBtn = signInDialog.findViewById(R.id.sign_in_btn);
+            Button dialogSignUpBtn = signInDialog.findViewById(R.id.sign_up_btn);
+
+            Intent registerIntent = new Intent(MainActivity.this,RegisterActivity.class);
+
+            dialogSignInBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    signInDialog.dismiss();
+                    setSignUpFragment = false;
+                    startActivity(registerIntent);
+                }
+            });
+
+            dialogSignUpBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    signInDialog.dismiss();
+                    setSignUpFragment = true;
+                    startActivity(registerIntent);
+                }
+            });
+            signInDialog.show();
+
+            //goToFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
             return true;
+        } else if (id == android.R.id.home){
+            if (showCart){
+                showCart = false;
+                finish();
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
