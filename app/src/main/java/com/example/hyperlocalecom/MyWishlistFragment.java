@@ -82,8 +82,12 @@ public class MyWishlistFragment extends Fragment {
         wishlistModelList.add(new WishlistModel(R.drawable.assorted_pocket_diary_p4,"Assorted Diary","Rs.259/-","Rs.299/-","Cash on Delivery Available"));
         wishlistModelList.add(new WishlistModel(R.drawable.assorted_pocket_diary_p4,"Assorted Diary","Rs.379/-","Rs.399/-","Cash on Delivery not Available"));
         wishlistModelList.add(new WishlistModel(R.drawable.spiral_pocket_diary_p5,"Assorted Diary","Rs.259/-","Rs.299/-","Cash on Delivery Available"));
+        wishlistModelList.add(new WishlistModel(R.drawable.assorted_pocket_diary_p4,"Assorted Diary","Rs.259/-","Rs.299/-","Cash on Delivery Available"));
+        wishlistModelList.add(new WishlistModel(R.drawable.assorted_pocket_diary_p4,"Assorted Diary","Rs.379/-","Rs.399/-","Cash on Delivery not Available"));
+        wishlistModelList.add(new WishlistModel(R.drawable.spiral_pocket_diary_p5,"Assorted Diary","Rs.259/-","Rs.299/-","Cash on Delivery Available"));
 
-        WishlistAdapter wishlistAdapter = new WishlistAdapter(wishlistModelList);
+
+        WishlistAdapter wishlistAdapter = new WishlistAdapter(wishlistModelList,true);
         wishlistRecyclerView.setAdapter(wishlistAdapter);
         wishlistAdapter.notifyDataSetChanged();
 

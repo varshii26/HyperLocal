@@ -1,5 +1,6 @@
 package com.example.hyperlocalecom;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,6 +106,14 @@ public class HomePageAdapter extends RecyclerView.Adapter {
             horizontalLayoutTitle.setText(title);
             if(horizontalProductScrollModelList.size()>8){
                 horizontalViewAllBtn.setVisibility(View.VISIBLE);
+                horizontalViewAllBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent viewAllIntent = new Intent(itemView.getContext(),ViewAllActivity.class);
+                        viewAllIntent.putExtra("layout_code",0);
+                        itemView.getContext().startActivity(viewAllIntent);
+                    }
+                });
             }else{
                 horizontalViewAllBtn.setVisibility(View.INVISIBLE);
             }
@@ -138,6 +147,15 @@ public class HomePageAdapter extends RecyclerView.Adapter {
         private void setGridProductLayout(List <HorizontalProductScrollModel> horizontalProductScrollModelList,String title){
             gridLayoutTitle.setText(title);
             gridView.setAdapter(new GridProductLayoutAdapter(horizontalProductScrollModelList));
+            gridLayoutBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent viewAllIntent = new Intent(itemView.getContext(),ViewAllActivity.class);
+                    viewAllIntent.putExtra("layout_code",1);
+                    itemView.getContext().startActivity(viewAllIntent);
+
+                }
+            });
         }
     }
 
