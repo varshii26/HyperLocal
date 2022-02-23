@@ -3,8 +3,12 @@ package com.example.hyperlocalecom;
 import static com.example.hyperlocalecom.RegisterActivity.setSignUpFragment;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -17,8 +21,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+// import android.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.example.hyperlocalecom.ui.home.HomeFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,18 +72,18 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView actionBarLogo;
 
-
+    private ImageView noInternetConnection;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private FrameLayout frameLayout;
     MenuItem menuItem;
 
-    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Toolbar toolbar =  (Toolbar)findViewById(R.id.toolbar);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.appBarMain.toolbar);
@@ -104,19 +110,31 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.getMenu().getItem(0).setChecked(true);
         frameLayout = findViewById(R.id.main_framelayout);
+        noInternetConnection = findViewById(R.id.no_internet_connection);
 
-        if(showCart){
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            goToFragment("My Cart", new MyCartFragment(),-2);
-        }else {
-            /*
-            actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.open,R.string.close);
-            drawer.addDrawerListener(actionBarDrawerToggle);
-            actionBarDrawerToggle.syncState();
-            */
-            setFragment(new HomeFragment(), HOME_FRAGMENT);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if(networkInfo!=null && networkInfo.isConnected() == true){
+            noInternetConnection.setVisibility(View.GONE);
+            if(showCart){
+                drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                goToFragment("My Cart", new MyCartFragment(),-2);
+            }else {
+
+                ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.open,R.string.close);
+                drawer.addDrawerListener(actionBarDrawerToggle);
+                actionBarDrawerToggle.syncState();
+
+                setFragment(new HomeFragment(), HOME_FRAGMENT);
+            }
+        }else{
+            Glide.with(this).load(R.drawable.no_internet_connection).into(noInternetConnection);
+            noInternetConnection.setVisibility(View.VISIBLE);
+
         }
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
