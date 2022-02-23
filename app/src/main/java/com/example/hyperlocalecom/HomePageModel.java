@@ -7,13 +7,15 @@ public class HomePageModel  {
     public static final int GRID_PRODUCT_VIEW = 1;
 
     private int type;
+    private String backgroundColor;
     ////////////Horizontal product layout
     private String title;
     private List <HorizontalProductScrollModel> horizontalProductScrollModelList;
 
-    public HomePageModel(int type, String title, List<HorizontalProductScrollModel> horizontalProductScrollModelList) {
+    public HomePageModel(int type, String title,String backgroundColor, List<HorizontalProductScrollModel> horizontalProductScrollModelList) {
         this.type = type;
         this.title = title;
+        this.backgroundColor = backgroundColor;
         this.horizontalProductScrollModelList = horizontalProductScrollModelList;
     }
     public String getTitle() {
@@ -22,6 +24,15 @@ public class HomePageModel  {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
     public List<HorizontalProductScrollModel> getHorizontalProductScrollModelList() {
         return horizontalProductScrollModelList;
     }
