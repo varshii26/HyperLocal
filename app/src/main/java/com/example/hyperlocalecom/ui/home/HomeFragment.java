@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private RecyclerView categoryRecyclerView;
     private CategoryAdapter categoryAdapter;
-    private RecyclerView testing;
+    private RecyclerView homePageRecyclerView;
     private List<CategoryModel> categoryModelList;
     private FirebaseFirestore firebaseFirestore;
 
@@ -96,16 +96,16 @@ public class HomeFragment extends Fragment {
 
         ///Horizontal Product Layout
 
-        List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
+//        List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4, "Assorted Pocket Diary", "Set of 4", "RS.259"));
 
         ///Horizontal Product Layout
 
@@ -115,20 +115,44 @@ public class HomeFragment extends Fragment {
         ///Grid Product Layout
 
         ////////////////////////
-        testing = view.findViewById(R.id.home_page_recyclerview);
-        LinearLayoutManager testingLayoutManager = new LinearLayoutManager(getContext());
-        testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        testing.setLayoutManager(testingLayoutManager);
-
+        homePageRecyclerView = view.findViewById(R.id.home_page_recyclerview);
+        LinearLayoutManager homePageRecyclerViewLayoutManager = new LinearLayoutManager(getContext());
+        homePageRecyclerViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        homePageRecyclerView.setLayoutManager(homePageRecyclerViewLayoutManager);
         List<HomePageModel> homePageModelList = new ArrayList<>();
-        homePageModelList.add(new HomePageModel(0, "Deals of the Day", horizontalProductScrollModelList));
-        homePageModelList.add(new HomePageModel(1, "Trending", horizontalProductScrollModelList));
-        homePageModelList.add(new HomePageModel(0, "Deals of the Day", horizontalProductScrollModelList));
-        homePageModelList.add(new HomePageModel(1, "Trending", horizontalProductScrollModelList));
-
-
+//        homePageModelList.add(new HomePageModel(0, "Deals of the Day", horizontalProductScrollModelList));
+//        homePageModelList.add(new HomePageModel(1, "Trending", horizontalProductScrollModelList));
+//        homePageModelList.add(new HomePageModel(0, "Deals of the Day", horizontalProductScrollModelList));
+//        homePageModelList.add(new HomePageModel(1, "Trending", horizontalProductScrollModelList));
         HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
-        testing.setAdapter(adapter);
+        homePageRecyclerView.setAdapter(adapter);
+
+        firebaseFirestore.collection("CATEGORIES")
+                .document("HOME")
+                .collection("TOP_DEALS").orderBy("index").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+
+                                if(((long)documentSnapshot.get("view_type"))==0){
+
+                                }else if(((long)documentSnapshot.get("view_type"))==0){
+
+                                }
+                            }
+                            adapter.notifyDataSetChanged();
+
+
+                        } else {
+                            String error = task.getException().getMessage();
+                            Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
         adapter.notifyDataSetChanged();
 
 

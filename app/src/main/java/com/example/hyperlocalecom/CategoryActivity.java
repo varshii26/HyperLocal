@@ -43,15 +43,15 @@ public class CategoryActivity extends AppCompatActivity {
 
         ///Horizontal Product Layout
 
-        List<HorizontalProductScrollModel> horizontalProductScrollModelList= new ArrayList<>();
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted Pocket Diary","Set of 4","RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted Pocket Diary","Set of 4","RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted Pocket Diary","Set of 4","RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted Pocket Diary","Set of 4","RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted-Pocket-Diary","Set of 4","RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted Pocket Diary","Set of 4","RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted Pocket Diary","Set of 4","RS.259"));
-        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted Pocket Diary","Set of 4","RS.259"));
+//        List<HorizontalProductScrollModel> horizontalProductScrollModelList= new ArrayList<>();
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted Pocket Diary","Set of 4","RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted Pocket Diary","Set of 4","RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted Pocket Diary","Set of 4","RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted Pocket Diary","Set of 4","RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted-Pocket-Diary","Set of 4","RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted Pocket Diary","Set of 4","RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted Pocket Diary","Set of 4","RS.259"));
+//        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.assorted_pocket_diary_p4,"Assorted Pocket Diary","Set of 4","RS.259"));
 
 
 
@@ -69,11 +69,12 @@ public class CategoryActivity extends AppCompatActivity {
         categoryRecyclerView.setLayoutManager(testingLayoutManager);
 
         List <HomePageModel> homePageModelList = new ArrayList<>();
+        /*
         homePageModelList.add(new HomePageModel(0,"Deals of the Day",horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(1,"Deals of the Day",horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(1,"Deals of the Day",horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(0,"Deals of the Day",horizontalProductScrollModelList));
-
+*/
 
         HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
         categoryRecyclerView.setAdapter(adapter);
