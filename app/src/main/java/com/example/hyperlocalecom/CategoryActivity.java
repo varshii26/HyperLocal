@@ -1,5 +1,9 @@
 package com.example.hyperlocalecom;
 
+import static com.example.hyperlocalecom.DBqueries.lists;
+import static com.example.hyperlocalecom.DBqueries.loadFragmentData;
+import static com.example.hyperlocalecom.DBqueries.loadedCategoriesNames;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,11 +20,13 @@ import com.example.hyperlocalecom.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class CategoryActivity extends AppCompatActivity {
 
     private ActivityCategoryBinding binding;
     private RecyclerView categoryRecyclerView;
+    private HomePageAdapter adapter ;
 
 
     @Override
@@ -68,7 +74,24 @@ public class CategoryActivity extends AppCompatActivity {
         testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         categoryRecyclerView.setLayoutManager(testingLayoutManager);
 
-        List <HomePageModel> homePageModelList = new ArrayList<>();
+
+        int listPosition =0;
+        for(int x = 0; x < loadedCategoriesNames.size();x++){
+            if(loadedCategoriesNames.get(x).equals(title.toUpperCase())){
+                    listPosition = x;
+            }
+        }
+
+        if(listPosition==0){
+            loadedCategoriesNames.add(title.toUpperCase());
+            lists.add(new ArrayList<HomePageModel>());
+            adapter = new HomePageAdapter(lists.get(loadedCategoriesNames.size()-1));
+
+            loadFragmentData(adapter,this,loadedCategoriesNames.size()-1,title);
+
+        }else{
+            adapter = new HomePageAdapter(lists.get(listPosition));
+        }
         /*
         homePageModelList.add(new HomePageModel(0,"Deals of the Day",horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(1,"Deals of the Day",horizontalProductScrollModelList));
@@ -76,7 +99,7 @@ public class CategoryActivity extends AppCompatActivity {
         homePageModelList.add(new HomePageModel(0,"Deals of the Day",horizontalProductScrollModelList));
 */
 
-        HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
+
         categoryRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 

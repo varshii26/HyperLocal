@@ -2,9 +2,12 @@ package com.example.hyperlocalecom.ui.home;
 
 import static com.example.hyperlocalecom.DBqueries.categoryModelList;
 import static com.example.hyperlocalecom.DBqueries.firebaseFirestore;
-import static com.example.hyperlocalecom.DBqueries.homePageModelList;
+
+import static com.example.hyperlocalecom.DBqueries.lists;
 import static com.example.hyperlocalecom.DBqueries.loadCategories;
 import static com.example.hyperlocalecom.DBqueries.loadFragmentData;
+import static com.example.hyperlocalecom.DBqueries.loadedCategoriesNames;
+
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -54,6 +57,7 @@ public class HomeFragment extends Fragment {
     private CategoryAdapter categoryAdapter;
     private RecyclerView homePageRecyclerView;
     private ImageView noInternetConnection;
+    private HomePageAdapter adapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -85,14 +89,20 @@ public class HomeFragment extends Fragment {
             homePageRecyclerViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             homePageRecyclerView.setLayoutManager(homePageRecyclerViewLayoutManager);
 
-            HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
-            homePageRecyclerView.setAdapter(adapter);
 
-            if(homePageModelList.size()==0){
-                loadFragmentData(adapter,getContext());
+
+            if(lists.size()==0){
+                loadedCategoriesNames.add("HOME");
+                lists.add(new ArrayList<HomePageModel>());
+                 adapter = new HomePageAdapter(lists.get(0));
+
+                loadFragmentData(adapter,getContext(),0,"Home");
             }else{
+                 adapter = new HomePageAdapter(lists.get(0));
                 categoryAdapter.notifyDataSetChanged();
             }
+
+            homePageRecyclerView.setAdapter(adapter);
 
         }else{
             Glide.with(this).load(R.drawable.no_internet_connection).into(noInternetConnection);
