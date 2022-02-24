@@ -19,6 +19,7 @@ public class ViewAllActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private GridView gridView;
+    public static List<WishlistModel> wishlistModelList;
     public static List<HorizontalProductScrollModel> horizontalProductScrollModelList;
 
     @Override
@@ -41,21 +42,6 @@ public class ViewAllActivity extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        List<WishlistModel> wishlistModelList = new ArrayList<>();
-        wishlistModelList.add(new WishlistModel(R.drawable.assorted_pocket_diary_p4, "Assorted Diary", "Rs.259/-", "Rs.299/-", "Cash on Delivery Available"));
-        wishlistModelList.add(new WishlistModel(R.drawable.assorted_pocket_diary_p4, "Assorted Diary", "Rs.259/-", "Rs.299/-", "Cash on Delivery not Available"));
-        wishlistModelList.add(new WishlistModel(R.drawable.assorted_pocket_diary_1, "Assorted Diary", "Rs.359/-", "Rs.419/-", "Cash on Delivery not Available"));
-        wishlistModelList.add(new WishlistModel(R.drawable.assorted_pocket_diary_2, "Assorted Diary", "Rs.259/-", "Rs.299/-", "Cash on Delivery Available"));
-        wishlistModelList.add(new WishlistModel(R.drawable.spiral_pocket_diary_p5, "Assorted Diary", "Rs.459/-", "Rs.499/-", "Cash on Delivery Available"));
-        wishlistModelList.add(new WishlistModel(R.drawable.assorted_pocket_diary_p4, "Assorted Diary", "Rs.259/-", "Rs.299/-", "Cash on Delivery Available"));
-        wishlistModelList.add(new WishlistModel(R.drawable.assorted_pocket_diary_p4, "Assorted Diary", "Rs.379/-", "Rs.399/-", "Cash on Delivery not Available"));
-        wishlistModelList.add(new WishlistModel(R.drawable.spiral_pocket_diary_p5, "Assorted Diary", "Rs.259/-", "Rs.299/-", "Cash on Delivery Available"));
-        wishlistModelList.add(new WishlistModel(R.drawable.assorted_pocket_diary_1, "Assorted Diary", "Rs.359/-", "Rs.419/-", "Cash on Delivery not Available"));
-        wishlistModelList.add(new WishlistModel(R.drawable.assorted_pocket_diary_2, "Assorted Diary", "Rs.259/-", "Rs.299/-", "Cash on Delivery Available"));
-        wishlistModelList.add(new WishlistModel(R.drawable.spiral_pocket_diary_p5, "Assorted Diary", "Rs.459/-", "Rs.499/-", "Cash on Delivery Available"));
-        wishlistModelList.add(new WishlistModel(R.drawable.assorted_pocket_diary_p4, "Assorted Diary", "Rs.259/-", "Rs.299/-", "Cash on Delivery Available"));
-        wishlistModelList.add(new WishlistModel(R.drawable.assorted_pocket_diary_p4, "Assorted Diary", "Rs.379/-", "Rs.399/-", "Cash on Delivery not Available"));
-        wishlistModelList.add(new WishlistModel(R.drawable.spiral_pocket_diary_p5, "Assorted Diary", "Rs.259/-", "Rs.299/-", "Cash on Delivery Available"));
 
 
 

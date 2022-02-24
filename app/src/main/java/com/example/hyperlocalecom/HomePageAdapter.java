@@ -73,8 +73,9 @@ public class HomePageAdapter extends RecyclerView.Adapter {
             case HomePageModel.HORIZONTAL_PRODUCT_VIEW:
                 String color = homePageModelList.get(position).getBackgroundColor();
                 String horizontalLayoutTitle= homePageModelList.get(position).getTitle();
+                List<WishlistModel> viewAllProductList = homePageModelList.get(position).getViewAllProductList();
                 List <HorizontalProductScrollModel> horizontalProductScrollModelList = homePageModelList.get(position).getHorizontalProductScrollModelList();
-                ((HorizontalProductViewHolder)viewHolder).setHorizontalProductLayout(horizontalProductScrollModelList,horizontalLayoutTitle,color);
+                ((HorizontalProductViewHolder)viewHolder).setHorizontalProductLayout(horizontalProductScrollModelList,horizontalLayoutTitle,color,viewAllProductList);
                 break;
             case HomePageModel.GRID_PRODUCT_VIEW:
                 String gridcolor = homePageModelList.get(position).getBackgroundColor();
@@ -115,7 +116,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
             horizontalRecyclerView=itemView.findViewById(R.id.horizontal_scroll_layout_recyclerview);
             horizontalRecyclerView.setRecycledViewPool(recycledViewPool);
         }
-        private void setHorizontalProductLayout(List <HorizontalProductScrollModel> horizontalProductScrollModelList,String title,String color){
+        private void setHorizontalProductLayout(List <HorizontalProductScrollModel> horizontalProductScrollModelList,String title,String color,List<WishlistModel> viewAllProductList){
             container.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(color)));
 
             horizontalLayoutTitle.setText(title);
@@ -124,8 +125,10 @@ public class HomePageAdapter extends RecyclerView.Adapter {
                 horizontalViewAllBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        ViewAllActivity.wishlistModelList = viewAllProductList;
                         Intent viewAllIntent = new Intent(itemView.getContext(),ViewAllActivity.class);
                         viewAllIntent.putExtra("layout_code",0);
+                        viewAllIntent.putExtra("title",title);
                         itemView.getContext().startActivity(viewAllIntent);
                     }
                 });
