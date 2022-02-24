@@ -75,7 +75,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions()).placeholder(R.mipmap.home_icon_final).into(productImage);
             productTitle.setText(title);
             productPrice.setText("Rs."+price+"/-");
-            cuttedPrice.setText("Rs."+cuttedPriceValue+"/+");
+            cuttedPrice.setText("Rs."+cuttedPriceValue+"/-");
             if (COD){
                 paymentMethod.setVisibility(View.VISIBLE);
             }else {
