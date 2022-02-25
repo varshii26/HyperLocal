@@ -44,6 +44,7 @@
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/app_bar_main.xml" value="0.25" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/cart_item_layout.xml" value="0.264" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/cart_total_amount_layout.xml" value="0.4" />
+        <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/category_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/content_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/fragment_my_account.xml" value="0.11651469098277609" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/fragment_my_cart.xml" value="0.16" />
@@ -56,8 +57,10 @@
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/my_order_item_layout.xml" value="0.4" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/order_details_layout.xml" value="0.264" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/order_status_layout.xml" value="0.264" />
+        <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/product_description_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/product_details_only_layout.xml" value="0.1" />
-        <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/product_images_layout.xml" value="0.1" />
+        <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/product_images_layout.xml" value="0.264" />
+        <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/product_specification_item_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/profile_data_layout.xml" value="0.6" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/quantity_dialog.xml" value="0.2916666666666667" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/shipping_details_layout.xml" value="0.264" />
