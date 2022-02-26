@@ -5,16 +5,14 @@ import static com.example.hyperlocalecom.MainActivity.showCart;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
-import android.service.controls.actions.FloatAction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +20,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hyperlocalecom.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,10 +42,19 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private View codIndicator;
     private TextView tvCodIndicator;
 
+
+    private ConstraintLayout productDetailsOnlyContainer;
+    private ConstraintLayout productDetailsTabsContainer;
     private ViewPager productDetailsViewPager;
     private TabLayout productDetailsTablayout;
+    private TextView productOnlyDescriptionBody;
 
     private Button buyNowBtn;
+
+    private String productDescription;
+    private   String productOtherDetails;
+    private List<ProductSpecificationModel> productSpecificationModelList = new ArrayList<>( );
+
 
     private static boolean ALREADY_ADDED_TO_WISHLIST = false;
     private FloatingActionButton addToWishlistBtn;
@@ -80,6 +86,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productDetailsTablayout = findViewById(R.id.product_details_tablayout);
 
         buyNowBtn = findViewById(R.id.buy_now_btn);
+        productDetailsTabsContainer = findViewById(R.id.product_details_tabs_body);
+        productDetailsOnlyContainer = findViewById(R.id.product_details_container);
+        productOnlyDescriptionBody = findViewById(R.id.product_details_body);
+
+
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -110,9 +121,25 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     }
 
                     if ((boolean)documentSnapshot.get("use_tab_layout")){
+                        productDetailsTabsContainer.setVisibility(View.VISIBLE);
+                        productDetailsOnlyContainer.setVisibility(View.GONE);
+                        productDescription = documentSnapshot.get("product_description").toString();
+                        productOtherDetails = documentSnapshot.get("product_other_details").toString();
 
+                        for(long x=1 ;x <(long)documentSnapshot.get("total_spec_titles")+1;x++){
+                            productSpecificationModelList.add(new ProductSpecificationModel(0,documentSnapshot.get("spec_title_"+x).toString()));
+
+                            for(long y= 1;y<(long) documentSnapshot.get("spec_title_"+x+"_total_fields")+1;y++){
+                                productSpecificationModelList.add(new ProductSpecificationModel(1,documentSnapshot.get("spec_title_"+x+"_field_"+y+"_name").toString(),documentSnapshot.get("spec_title_"+x+"_field_"+y+"_value").toString()));
+                            }
+                        }
+
+                    }else{
+                        productDetailsTabsContainer.setVisibility(View.GONE);
+                        productDetailsOnlyContainer.setVisibility(View.VISIBLE);
+                        productOnlyDescriptionBody.setText(documentSnapshot.get("product_description").toString());
                     }
-
+                    productDetailsViewPager.setAdapter(new ProductDetailsAdapter(getSupportFragmentManager(),productDetailsTablayout.getTabCount(), productDescription, productOtherDetails, productSpecificationModelList));
                 }else {
                     String error = task.getException().getMessage();
                     Toast.makeText(ProductDetailsActivity.this,error,Toast.LENGTH_SHORT).show();
@@ -135,7 +162,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             }
         });
 
-        productDetailsViewPager.setAdapter(new ProductDetailsAdapter(getSupportFragmentManager(),productDetailsTablayout.getTabCount()));
+
 
         productDetailsViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(productDetailsTablayout));
         productDetailsTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

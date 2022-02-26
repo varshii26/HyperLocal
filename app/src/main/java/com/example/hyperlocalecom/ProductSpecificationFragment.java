@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,8 @@ public class ProductSpecificationFragment extends Fragment {
     }
 
     private RecyclerView productSpecificationRecyclerView;
+    public List<ProductSpecificationModel> productSpecificationModelList;
+
 
 
     @Override
@@ -74,19 +77,15 @@ public class ProductSpecificationFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         productSpecificationRecyclerView.setLayoutManager(linearLayoutManager);
-        List<ProductSpecificationModel> productSpecificationModelList = new ArrayList<>();
-        productSpecificationModelList.add(new ProductSpecificationModel(0,"General"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"Pages","100"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"GSM","120"));
+
+//        productSpecificationModelList.add(new ProductSpecificationModel(0,"General"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"Pages","100"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"GSM","120"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(0,"Customised"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"Dimensions","5 X 3 inches"));
+//        productSpecificationModelList.add(new ProductSpecificationModel(1,"Colors","KRAFT, PINK, GREEN & GREY"));
 
 
-        productSpecificationModelList.add(new ProductSpecificationModel(0,"Customised"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"Dimensions","5 X 3 inches"));
-        productSpecificationModelList.add(new ProductSpecificationModel(1,"Colors","KRAFT, PINK, GREEN & GREY"));
-
-        /*productSpecificationModelList.add(new ProductSpecificationModel("Pages","100"));
-        productSpecificationModelList.add(new ProductSpecificationModel("Pages","100"));
-        productSpecificationModelList.add(new ProductSpecificationModel("Pages","100"));*/
 
         ProductSpecificationAdapter productSpecificationAdapter = new ProductSpecificationAdapter(productSpecificationModelList);
         productSpecificationRecyclerView.setAdapter(productSpecificationAdapter);
