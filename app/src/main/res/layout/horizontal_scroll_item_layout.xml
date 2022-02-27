@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/assorted_pocket_diary_p4" />
+        app:srcCompat="@mipmap/placeholder_small" />
 
     <TextView
         android:id="@+id/h_s_product_title"
