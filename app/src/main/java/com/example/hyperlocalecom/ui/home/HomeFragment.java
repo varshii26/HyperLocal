@@ -30,6 +30,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.hyperlocalecom.CategoryAdapter;
@@ -52,21 +53,26 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
+    private ConnectivityManager connectivityManager;
+    private NetworkInfo networkInfo;
+
     private FragmentHomeBinding binding;
     private RecyclerView categoryRecyclerView;
     private CategoryAdapter categoryAdapter;
     private RecyclerView homePageRecyclerView;
     private ImageView noInternetConnection;
     private HomePageAdapter adapter;
+    public static  SwipeRefreshLayout swipeRefreshLayout;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        swipeRefreshLayout = view.findViewById(R.id.refresh_layout);
         noInternetConnection = view.findViewById(R.id.no_internet_connection);
 
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connectivityManager.getActiveNetworkInfo();
 
         if(networkInfo!=null && networkInfo.isConnected() == true){
             noInternetConnection.setVisibility(View.GONE);
@@ -133,6 +139,37 @@ public class HomeFragment extends Fragment {
 //        homePageModelList.add(new HomePageModel(1, "Trending", horizontalProductScrollModelList));
 //        homePageModelList.add(new HomePageModel(0, "Deals of the Day", horizontalProductScrollModelList));
 //        homePageModelList.add(new HomePageModel(1, "Trending", horizontalProductScrollModelList));
+
+        //// refresh layout
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+
+                categoryModelList.clear();
+                lists.clear();
+                loadedCategoriesNames.clear();
+
+                if(networkInfo!=null && networkInfo.isConnected() == true){
+                    noInternetConnection.setVisibility(View.GONE);
+
+                    loadCategories(categoryAdapter,getContext());
+
+                    loadedCategoriesNames.add("HOME");
+                    lists.add(new ArrayList<HomePageModel>());
+                    //adapter = new HomePageAdapter(lists.get(0));
+                    loadFragmentData(adapter,getContext(),0,"Home");
+
+
+                }else {
+                    Glide.with(getContext()).load(R.drawable.no_internet_connection).into(noInternetConnection);
+                    noInternetConnection.setVisibility(View.VISIBLE);
+                }
+                }
+        });
+
+        //// refresh layout
 
         return view;
     }

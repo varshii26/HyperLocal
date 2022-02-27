@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.hyperlocalecom.ui.home.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,7 +46,7 @@ public class DBqueries {
                 );
     }
 
-    public static void loadFragmentData(final HomePageAdapter adapter,final Context context,final int index,String categoryName){
+    public static void loadFragmentData(final HomePageAdapter adapter, final Context context, final int index, String categoryName){
         firebaseFirestore.collection("CATEGORIES")
                 .document(categoryName.toUpperCase())
                 .collection("TOP_DEALS").orderBy("index").get()
@@ -91,8 +92,7 @@ public class DBqueries {
                                 }
                             }
                             adapter.notifyDataSetChanged();
-
-
+                            HomeFragment.swipeRefreshLayout.setRefreshing(false);
                         } else {
                             String error = task.getException().getMessage();
                             Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
