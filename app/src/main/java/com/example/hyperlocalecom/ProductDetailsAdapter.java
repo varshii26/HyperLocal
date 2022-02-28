@@ -16,21 +16,19 @@ public class ProductDetailsAdapter extends FragmentPagerAdapter {
     private List<ProductSpecificationModel> productSpecificationModelList;
 
 
-
     public ProductDetailsAdapter(@NonNull FragmentManager fm, int totalTabs, String description, String productOtherDetails, List<ProductSpecificationModel> productSpecificationModelList) {
         super(fm);
-        this.totalTabs=totalTabs;
+        this.totalTabs = totalTabs;
         this.productDescription = description;
         this.productOtherDetails = productOtherDetails;
         this.productSpecificationModelList = productSpecificationModelList;
     }
 
 
-
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        switch(position){
+        switch (position) {
             case 0:
                 ProductDescriptionFragment productDescriptionFragment1 = new ProductDescriptionFragment();
                 productDescriptionFragment1.body = productDescription;

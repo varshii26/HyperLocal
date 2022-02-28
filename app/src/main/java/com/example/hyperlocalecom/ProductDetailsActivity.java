@@ -1,6 +1,8 @@
 package com.example.hyperlocalecom;
 
+
 import static com.example.hyperlocalecom.MainActivity.showCart;
+import static com.example.hyperlocalecom.RegisterActivity.setSignUpFragment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -16,7 +19,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +29,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -50,10 +57,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private TextView productOnlyDescriptionBody;
 
     private Button buyNowBtn;
+    private Dialog signInDialog;
+    private LinearLayout addToCartBtn;
+
+    private FirebaseUser currentUser;
 
     private String productDescription;
-    private   String productOtherDetails;
-    private List<ProductSpecificationModel> productSpecificationModelList = new ArrayList<>( );
+    private String productOtherDetails;
+    private List<ProductSpecificationModel> productSpecificationModelList = new ArrayList<>();
 
 
     private static boolean ALREADY_ADDED_TO_WISHLIST = false;
@@ -73,7 +84,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        productImagesViewPager = (ViewPager)findViewById(R.id.product_images_viewpager);
+        productImagesViewPager = (ViewPager) findViewById(R.id.product_images_viewpager);
         viewpagerIndicator = findViewById(R.id.viewpager_indicator);
         addToWishlistBtn = findViewById(R.id.add_to_wishlist_btn);
         productTitle = findViewById(R.id.product_title);
@@ -90,78 +101,83 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productDetailsOnlyContainer = findViewById(R.id.product_details_container);
         productOnlyDescriptionBody = findViewById(R.id.product_details_body);
 
+        addToCartBtn = findViewById(R.id.add_to_cart_btn);
 
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
         final List<String> productImages = new ArrayList<>();
 
-        firebaseFirestore.collection("PRODUCTS").document("HB9DxGYHfO0HLpbUTT2d")
+        firebaseFirestore.collection("PRODUCTS").document(getIntent().getStringExtra("product_ID"))
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     DocumentSnapshot documentSnapshot = task.getResult();
 
-                    for (long x = 1; x < (long)documentSnapshot.get("no_of_product_images") + 1 ; x++){
-                        productImages.add(documentSnapshot.get("product_image_"+x).toString());
+                    for (long x = 1; x < (long) documentSnapshot.get("no_of_product_images") + 1; x++) {
+                        productImages.add(documentSnapshot.get("product_image_" + x).toString());
                     }
                     ProductImagesAdapter productImagesAdapter = new ProductImagesAdapter(productImages);
                     productImagesViewPager.setAdapter(productImagesAdapter);
 
                     productTitle.setText(documentSnapshot.get("product_title").toString());
-                    productPrice.setText("Rs."+documentSnapshot.get("product_price").toString()+"/-");
-                    cuttedPrice.setText("Rs."+documentSnapshot.get("cutted_price").toString()+"/-");
-                    if ((boolean)documentSnapshot.get("COD")) {
+                    productPrice.setText("Rs." + documentSnapshot.get("product_price").toString() + "/-");
+                    cuttedPrice.setText("Rs." + documentSnapshot.get("cutted_price").toString() + "/-");
+                    if ((boolean) documentSnapshot.get("COD")) {
                         codIndicator.setVisibility(View.VISIBLE);
                         tvCodIndicator.setVisibility(View.VISIBLE);
-                    }else {
+                    } else {
                         codIndicator.setVisibility(View.INVISIBLE);
                         tvCodIndicator.setVisibility(View.INVISIBLE);
                     }
 
-                    if ((boolean)documentSnapshot.get("use_tab_layout")){
+                    if ((boolean) documentSnapshot.get("use_tab_layout")) {
                         productDetailsTabsContainer.setVisibility(View.VISIBLE);
                         productDetailsOnlyContainer.setVisibility(View.GONE);
                         productDescription = documentSnapshot.get("product_description").toString();
                         productOtherDetails = documentSnapshot.get("product_other_details").toString();
 
-                        for(long x=1 ;x <(long)documentSnapshot.get("total_spec_titles")+1;x++){
-                            productSpecificationModelList.add(new ProductSpecificationModel(0,documentSnapshot.get("spec_title_"+x).toString()));
+                        for (long x = 1; x < (long) documentSnapshot.get("total_spec_titles") + 1; x++) {
+                            productSpecificationModelList.add(new ProductSpecificationModel(0, documentSnapshot.get("spec_title_" + x).toString()));
 
-                            for(long y= 1;y<(long) documentSnapshot.get("spec_title_"+x+"_total_fields")+1;y++){
-                                productSpecificationModelList.add(new ProductSpecificationModel(1,documentSnapshot.get("spec_title_"+x+"_field_"+y+"_name").toString(),documentSnapshot.get("spec_title_"+x+"_field_"+y+"_value").toString()));
+                            for (long y = 1; y < (long) documentSnapshot.get("spec_title_" + x + "_total_fields") + 1; y++) {
+                                productSpecificationModelList.add(new ProductSpecificationModel(1, documentSnapshot.get("spec_title_" + x + "_field_" + y + "_name").toString(), documentSnapshot.get("spec_title_" + x + "_field_" + y + "_value").toString()));
                             }
                         }
 
-                    }else{
+                    } else {
                         productDetailsTabsContainer.setVisibility(View.GONE);
                         productDetailsOnlyContainer.setVisibility(View.VISIBLE);
                         productOnlyDescriptionBody.setText(documentSnapshot.get("product_description").toString());
                     }
-                    productDetailsViewPager.setAdapter(new ProductDetailsAdapter(getSupportFragmentManager(),productDetailsTablayout.getTabCount(), productDescription, productOtherDetails, productSpecificationModelList));
-                }else {
+                    productDetailsViewPager.setAdapter(new ProductDetailsAdapter(getSupportFragmentManager(), productDetailsTablayout.getTabCount(), productDescription, productOtherDetails, productSpecificationModelList));
+                } else {
                     String error = task.getException().getMessage();
-                    Toast.makeText(ProductDetailsActivity.this,error,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProductDetailsActivity.this, error, Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        viewpagerIndicator.setupWithViewPager(productImagesViewPager,true);
+        viewpagerIndicator.setupWithViewPager(productImagesViewPager, true);
 
         addToWishlistBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ALREADY_ADDED_TO_WISHLIST){
-                    ALREADY_ADDED_TO_WISHLIST = false;
-                    addToWishlistBtn.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
-                }else {
-                    ALREADY_ADDED_TO_WISHLIST = true;
-                    addToWishlistBtn.setSupportImageTintList(getResources().getColorStateList(R.color.colorPrimary));
+                if (currentUser == null) {
+                    signInDialog.show();
+                }else{
+                    if (ALREADY_ADDED_TO_WISHLIST) {
+                        ALREADY_ADDED_TO_WISHLIST = false;
+                        addToWishlistBtn.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
+                    } else {
+                        ALREADY_ADDED_TO_WISHLIST = true;
+                        addToWishlistBtn.setSupportImageTintList(getResources().getColorStateList(R.color.colorPrimary));
+                    }
                 }
+
             }
         });
-
 
 
         productDetailsViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(productDetailsTablayout));
@@ -185,11 +201,70 @@ public class ProductDetailsActivity extends AppCompatActivity {
         buyNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent deliveryIntent = new Intent(ProductDetailsActivity.this, DeliveryActivity.class);
-                startActivity(deliveryIntent);
+                if(currentUser == null){
+                    signInDialog.show();
+                }else{
+                    Intent deliveryIntent = new Intent(ProductDetailsActivity.this, DeliveryActivity.class);
+                    startActivity(deliveryIntent);
+                }
+
             }
         });
 
+        addToCartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+             if(currentUser == null){
+                 signInDialog.show();
+             }else{
+                 // todo: add to cart
+             }
+            }
+        });
+
+
+
+        /// sign in dialog
+        signInDialog = new Dialog((ProductDetailsActivity.this));
+        signInDialog.setContentView(R.layout.sign_in_dialog);
+        signInDialog.setCancelable(true);
+        signInDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        Button dialogSignInBtn = signInDialog.findViewById(R.id.sign_in_btn);
+        Button dialogSignUpBtn = signInDialog.findViewById(R.id.sign_up_btn);
+
+        Intent registerIntent = new Intent(ProductDetailsActivity.this, RegisterActivity.class);
+
+        dialogSignInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SignInFragment.disableCloseBtn = true;
+                SignUpFragment.disableCloseBtn = true;
+                signInDialog.dismiss();
+                setSignUpFragment = false;
+                startActivity(registerIntent);
+            }
+        });
+
+        dialogSignUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SignInFragment.disableCloseBtn = true;
+                SignUpFragment.disableCloseBtn = true ;
+                signInDialog.dismiss();
+                setSignUpFragment = true;
+                startActivity(registerIntent);
+            }
+        });
+
+        //// Sign In dialog
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     @Override
@@ -209,10 +284,15 @@ public class ProductDetailsActivity extends AppCompatActivity {
         } else if (id == R.id.mainSearchIcon) {
             return true;
         } else if (id == R.id.mainCartIcon) {
-            Intent cartIntent = new Intent(ProductDetailsActivity.this,MainActivity.class);
-            showCart = true;
-            startActivity(cartIntent);
-            return true;
+            if(currentUser == null){
+                signInDialog.show();
+            }else{
+                Intent cartIntent = new Intent(ProductDetailsActivity.this, MainActivity.class);
+                showCart = true;
+                startActivity(cartIntent);
+                return true;
+            }
+
         }
 
         return super.onOptionsItemSelected(item);

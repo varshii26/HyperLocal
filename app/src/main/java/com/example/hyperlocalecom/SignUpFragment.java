@@ -52,6 +52,7 @@ public class SignUpFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFireStore;
     String userID;
+    public static boolean disableCloseBtn = false;
 
 
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
@@ -121,6 +122,13 @@ public class SignUpFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFireStore = FirebaseFirestore.getInstance();
+
+        if(disableCloseBtn==true){
+            closebtn.setVisibility(View.GONE);
+
+        }else{
+            closebtn.setVisibility(View.VISIBLE);
+        }
 
 
         return view;
@@ -361,8 +369,14 @@ public class SignUpFragment extends Fragment {
         }
 
         private void mainIntent(){
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            getActivity().startActivity(intent);
+            if(disableCloseBtn){
+                disableCloseBtn = false;
+            }else{
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                getActivity().startActivity(intent);
+            }
+
+
             getActivity().finish();
 
         }

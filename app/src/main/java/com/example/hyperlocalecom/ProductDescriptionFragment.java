@@ -29,9 +29,8 @@ public class ProductDescriptionFragment extends Fragment {
         // Required empty public constructor
     }
 
-   private TextView descriptionBody;
+    private TextView descriptionBody;
     public String body;
-
 
 
     // TODO: Rename and change types and number of parameters

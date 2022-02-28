@@ -50,6 +50,7 @@ public class SignInFragment extends Fragment {
     private TextView forgotPassword;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
     private ProgressBar pbar;
+    public static boolean disableCloseBtn = false;
 
     // TODO: Rename and change types of parameters
     //private String mParam1;
@@ -59,34 +60,6 @@ public class SignInFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /*
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SignInFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-  /*  public static SignInFragment newInstance(String param1, String param2) {
-        SignInFragment fragment = new SignInFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-   */
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,13 +69,19 @@ public class SignInFragment extends Fragment {
         dontHaveAnAccount = view.findViewById(R.id.goToRegister);
         parentFrameLayout = getActivity().findViewById(R.id.registerFrameLayout);
         email = view.findViewById(R.id.sign_in_emailId);
-        password = view.findViewById(R.id.sign_up_password);
+        password = view.findViewById(R.id.sign_in_password);
         closeBtn = view.findViewById(R.id.sign_in_closeButton);
         loginBtn = view.findViewById(R.id.loginBtn);
         firebaseAuth = FirebaseAuth.getInstance();
         pbar = view.findViewById(R.id.sign_in_ProgressBar);
         forgotPassword = view.findViewById(R.id.sign_in_forgot_password);
         loginBtn.setEnabled(true);
+        if(disableCloseBtn==true){
+            closeBtn.setVisibility(View.GONE);
+
+        }else{
+            closeBtn.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 
@@ -126,7 +105,7 @@ public class SignInFragment extends Fragment {
             }
         });
 
-   /*  email.addTextChangedListener(new TextWatcher() {
+     email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -162,7 +141,7 @@ public class SignInFragment extends Fragment {
             }
         });
 
-    */
+
 
 
 
@@ -191,7 +170,7 @@ public class SignInFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-   /* private void checkInputs(){
+    private void checkInputs(){
         if(!TextUtils.isEmpty(email.getText())){
             if(!TextUtils.isEmpty(password.getText())){
                 loginBtn.setEnabled(true);
@@ -204,7 +183,7 @@ public class SignInFragment extends Fragment {
         }
     }
 
-    */
+
 
 
     private void checkEmailAndPassword(){
@@ -214,7 +193,7 @@ public class SignInFragment extends Fragment {
                 pbar.setVisibility(View.VISIBLE);
                 loginBtn.setEnabled(false);
 
-                firebaseAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                firebaseAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -242,8 +221,14 @@ public class SignInFragment extends Fragment {
     }
 
     private void mainIntent(){
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        getActivity().startActivity(intent);
+        if(disableCloseBtn){
+            disableCloseBtn = false;
+        }else{
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            getActivity().startActivity(intent);
+        }
+
+
         getActivity().finish();
 
     }
