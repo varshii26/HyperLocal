@@ -1,5 +1,4 @@
 package com.example.hyperlocalecom;
-
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
