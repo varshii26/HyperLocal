@@ -68,6 +68,7 @@ public class SignUpFragment extends Fragment {
 
     private TextView alreadyHaveAnAccount;
     private FrameLayout parentFrameLayout;
+
     public SignUpFragment() {
         // Required empty public constructor
     }
@@ -103,7 +104,7 @@ public class SignUpFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       View view =  inflater.inflate(R.layout.fragment_sign_up, container, false);
+        View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
         alreadyHaveAnAccount = view.findViewById(R.id.goToLogin);
         parentFrameLayout = getActivity().findViewById(R.id.registerFrameLayout);
@@ -123,10 +124,10 @@ public class SignUpFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFireStore = FirebaseFirestore.getInstance();
 
-        if(disableCloseBtn==true){
+        if (disableCloseBtn == true) {
             closebtn.setVisibility(View.GONE);
 
-        }else{
+        } else {
             closebtn.setVisibility(View.VISIBLE);
         }
 
@@ -258,7 +259,6 @@ public class SignUpFragment extends Fragment {
         });
 
 
-
 //register--todo for commiting
 
         mregisterBtn.setOnClickListener(new View.OnClickListener() {
@@ -271,113 +271,120 @@ public class SignUpFragment extends Fragment {
         });
     }
 
-        private void setFragment(Fragment fragment) {
-            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(parentFrameLayout.getId(),fragment);
-            fragmentTransaction.setCustomAnimations(R.anim.slide_from_left,R.anim.slideout_from_right);
-            fragmentTransaction.commit();
-        }
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(parentFrameLayout.getId(), fragment);
+        fragmentTransaction.setCustomAnimations(R.anim.slide_from_left, R.anim.slideout_from_right);
+        fragmentTransaction.commit();
+    }
 
-        private void checkInputs(){
-        if(!TextUtils.isEmpty(mfullName.getText())){
-            if(!TextUtils.isEmpty(memailId.getText())){
-                if(!TextUtils.isEmpty(mphoneNo.getText())){
-                    if(!TextUtils.isEmpty(maddress.getText())){
-                        if(!TextUtils.isEmpty(mpassword.getText()) && mpassword.length() >=8){
+    private void checkInputs() {
+        if (!TextUtils.isEmpty(mfullName.getText())) {
+            if (!TextUtils.isEmpty(memailId.getText())) {
+                if (!TextUtils.isEmpty(mphoneNo.getText())) {
+                    if (!TextUtils.isEmpty(maddress.getText())) {
+                        if (!TextUtils.isEmpty(mpassword.getText()) && mpassword.length() >= 8) {
                             mregisterBtn.setEnabled(true);
 
-                        }else{
+                        } else {
                             mregisterBtn.setEnabled(false);
                         }
                     }
 
-                }else{
+                } else {
                     mregisterBtn.setEnabled(false);
                 }
-            }else{
+            } else {
                 mregisterBtn.setEnabled(false);
 
             }
-        }else{
+        } else {
             mregisterBtn.setEnabled(false);
 
         }
-        }
+    }
 
-        private void checkEmail(){
+    private void checkEmail() {
 
-        if(memailId.getText().toString().matches(emailPattern)){
+        if (memailId.getText().toString().matches(emailPattern)) {
 
             pbar.setVisibility(View.VISIBLE);
             mregisterBtn.setEnabled(false);
-            firebaseAuth.createUserWithEmailAndPassword(memailId.getText().toString(),mpassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        FirebaseUser fuser = firebaseAuth.getCurrentUser();
 
-                      /* Intent mainIntent = new Intent(getActivity(),RegisterActivity.class);
-                        ((Activity) getActivity()).overridePendingTransition(0, 0);
-                       startActivity(mainIntent);
-                        // getActivity().finish(); //
+            firebaseAuth.createUserWithEmailAndPassword(memailId.getText().toString(), mpassword.getText().toString())
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Map<String, Object> userdata = new HashMap<>();
+                                userdata.put("fullname", mfullName.getText().toString());
+                                userdata.put("email", memailId.getText().toString());
+                                userdata.put("phone", mphoneNo.getText().toString());
+                                userdata.put("address", maddress.getText().toString());
 
-                       */
-                       // Toast.makeText(SignUpFragment.this, "User created", Toast.LENGTH_SHORT).show();
-                        userID = firebaseAuth.getCurrentUser().getUid();
-                        mregisterBtn.setEnabled(false);
-                        DocumentReference documentReference = firebaseFireStore.collection("users").document(userID);
-                        Map<String,Object> user = new HashMap<>();
-                        user.put("fName",mfullName.getText().toString());
-                        user.put("email",memailId.getText().toString());
-                        user.put("phone",mphoneNo.getText().toString());
-                        user.put("address",maddress.getText().toString());
-                        documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "onSuccess: user Profile is created for "+ userID);
+
+                                firebaseFireStore.collection("USERS").document(firebaseAuth.getUid())
+                                        .set(userdata)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Map<String, Object> listSize = new HashMap<>();
+                                                    listSize.put("list_size", (long) 0);
+                                                    firebaseFireStore.collection("USERS").document(firebaseAuth.getUid()).collection("USER_DATA").document("MY_WISHLIST")
+                                                            .set(listSize).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                mainIntent();
+                                                            } else {
+                                                                pbar.setVisibility(View.INVISIBLE);
+                                                                mregisterBtn.setEnabled(true);
+                                                                String error = task.getException().getMessage();
+                                                                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+                                                    });
+
+                                                } else {
+
+                                                    String error = task.getException().getMessage();
+                                                    Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+
+                            } else {
+
                                 pbar.setVisibility(View.INVISIBLE);
+                                mregisterBtn.setEnabled(true);
+                                String error = task.getException().getMessage();
+                                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+
 
                             }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, "onFailure: " + e.toString());
-                                mainIntent();
-                            }
-                        });
+                        }
+                    });
 
 
-
-                    }else{
-                        mregisterBtn.setEnabled(true);
-                        pbar.setVisibility(View.INVISIBLE);
-                        String error = task.getException().getMessage();
-                        Toast.makeText(getActivity(),error,Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }
-            });
-
-
-        }else{
+        } else {
 
             memailId.setError("Invalid Email!");
 
         }
+    }
 
+
+    private void mainIntent() {
+        if (disableCloseBtn) {
+            disableCloseBtn = false;
+        } else {
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            getActivity().startActivity(intent);
         }
 
-        private void mainIntent(){
-            if(disableCloseBtn){
-                disableCloseBtn = false;
-            }else{
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                getActivity().startActivity(intent);
-            }
 
+        getActivity().finish();
 
-            getActivity().finish();
-
-        }
+    }
 }

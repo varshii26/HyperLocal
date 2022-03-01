@@ -129,7 +129,7 @@ public class HomeFragment extends Fragment {
         networkInfo = connectivityManager.getActiveNetworkInfo();
 
         if (networkInfo != null && networkInfo.isConnected() == true) {
-          //  MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            //  MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
 
             noInternetConnection.setVisibility(View.GONE);
@@ -158,7 +158,7 @@ public class HomeFragment extends Fragment {
             homePageRecyclerView.setAdapter(adapter);
 
         } else {
-         //   MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            //   MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
             categoryRecyclerView.setVisibility(View.GONE);
             homePageRecyclerView.setVisibility(View.GONE);
@@ -214,7 +214,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    private void reloadPage(){
+    private void reloadPage() {
 
         networkInfo = connectivityManager.getActiveNetworkInfo();
         categoryModelList.clear();
@@ -222,7 +222,7 @@ public class HomeFragment extends Fragment {
         loadedCategoriesNames.clear();
 
         if (networkInfo != null && networkInfo.isConnected() == true) {
-         //   MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            //   MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             noInternetConnection.setVisibility(View.GONE);
             categoryRecyclerView.setVisibility(View.VISIBLE);
             homePageRecyclerView.setVisibility(View.VISIBLE);
@@ -241,8 +241,8 @@ public class HomeFragment extends Fragment {
 
 
         } else {
-          //  MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-            Toast.makeText(getContext(),"No Internet Connection",Toast.LENGTH_SHORT).show();
+            //  MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             categoryRecyclerView.setVisibility(View.GONE);
             homePageRecyclerView.setVisibility(View.GONE);
             Glide.with(getContext()).load(R.drawable.no_internet_connection).into(noInternetConnection);

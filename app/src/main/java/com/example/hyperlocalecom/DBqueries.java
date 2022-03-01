@@ -1,5 +1,6 @@
 package com.example.hyperlocalecom;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -28,6 +30,8 @@ public class DBqueries {
 
     public static List<List<HomePageModel>> lists = new ArrayList<>();
     public static List<String> loadedCategoriesNames = new ArrayList<>();
+    public static List<String> wishList = new ArrayList<>();
+    public static List<WishlistModel> wishlistModelList = new ArrayList<>();
 
 
     public static void loadCategories(RecyclerView categoryRecyclerView, final Context context) {
@@ -110,5 +114,50 @@ public class DBqueries {
                 });
 
 
+    }
+
+    public static void loadWishlist(final Context context, Dialog dialog,final boolean loadProductData  ) {
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_WISHLIST")
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (long x = 0; x < (long) task.getResult().get("list_size"); x++) {
+                        wishList.add(task.getResult().get("product_ID" + x).toString());
+
+                        if(loadProductData) {
+
+                            firebaseFirestore.collection("PRODUCTS").document(task.getResult().get("product_ID_" + x).toString())
+                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        wishlistModelList.add(new WishlistModel(task.getResult().get("product_image_1").toString()
+                                                , task.getResult().get("product_title").toString()
+                                                , task.getResult().get("product_price").toString()
+                                                , task.getResult().get("cutted_price").toString()
+                                                , (boolean) task.getResult().get("COD")));
+
+                                        MyWishlistFragment.wishlistAdapter.notifyDataSetChanged();
+
+                                    } else {
+                                        String error = task.getException().getMessage();
+                                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            });
+                        }
+
+                    }
+
+                } else {
+                    String error = task.getException().getMessage();
+                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                }
+
+                dialog.dismiss();
+            }
+        });
     }
 }
