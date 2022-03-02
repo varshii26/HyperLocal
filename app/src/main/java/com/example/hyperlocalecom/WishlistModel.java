@@ -2,18 +2,28 @@ package com.example.hyperlocalecom;
 
 public class WishlistModel {
 
+    private String productId;
     private String productImage;
     private String productTitle;
     private String productPrice;
     private String cuttedPrice;
     private Boolean COD;
 
-    public WishlistModel(String productImage, String productTitle, String productPrice, String cuttedPrice, Boolean COD) {
+    public WishlistModel(String productId,String productImage, String productTitle, String productPrice, String cuttedPrice, Boolean COD) {
+        this.productId = productId;
         this.productImage = productImage;
         this.productTitle = productTitle;
         this.productPrice = productPrice;
         this.cuttedPrice = cuttedPrice;
         this.COD = COD;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getProductImage() {

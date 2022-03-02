@@ -42,27 +42,25 @@ public class DBqueries {
 
 
     public static void loadCategories(RecyclerView categoryRecyclerView, final Context context) {
-
+        categoryModelList.clear();
         firebaseFirestore.collection("CATEGORIES").orderBy("index").get().
                 addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                          @Override
-                                          public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                              if (task.isSuccessful()) {
-                                                  for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                                      categoryModelList.add(new CategoryModel(documentSnapshot.get("icon").toString(), documentSnapshot.get("categoryName").toString()));
-                                                  }
-                                                  CategoryAdapter categoryAdapter = new CategoryAdapter(categoryModelList);
-                                                  categoryRecyclerView.setAdapter(categoryAdapter);
-                                                  categoryAdapter.notifyDataSetChanged();
-                                              } else {
-                                                  String error = task.getException().getMessage();
-                                                  Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
-                                              }
-                                          }
-                                      }
-                );
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                categoryModelList.add(new CategoryModel(documentSnapshot.get("icon").toString(), documentSnapshot.get("categoryName").toString()));
+                            }
+                            CategoryAdapter categoryAdapter = new CategoryAdapter(categoryModelList);
+                            categoryRecyclerView.setAdapter(categoryAdapter);
+                            categoryAdapter.notifyDataSetChanged();
+                        } else {
+                            String error = task.getException().getMessage();
+                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
-
     public static void loadFragmentData(final RecyclerView homePageRecyclerView, final Context context, final int index, String categoryName) {
         firebaseFirestore.collection("CATEGORIES")
                 .document(categoryName.toUpperCase())
@@ -86,7 +84,8 @@ public class DBqueries {
                                                 , documentSnapshot.get("product_subtitle_" + x).toString()
                                                 , documentSnapshot.get("product_price_" + x).toString()));
 
-                                        viewAllProductList.add(new WishlistModel(documentSnapshot.get("product_image_" + x).toString()
+                                        viewAllProductList.add(new WishlistModel(documentSnapshot.get("product_ID_" + x).toString()
+                                                ,documentSnapshot.get("product_image_" + x).toString()
                                                 , documentSnapshot.get("product_full_title_" + x).toString()
                                                 , documentSnapshot.get("product_price_" + x).toString()
                                                 , documentSnapshot.get("cutted_price_" + x).toString()
@@ -124,6 +123,7 @@ public class DBqueries {
     }
 
     public static void loadWishlist(final Context context, Dialog dialog,final boolean loadProductData  ) {
+        wishList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_WISHLIST")
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -144,12 +144,15 @@ public class DBqueries {
                             ProductDetailsActivity.ALREADY_ADDED_TO_WISHLIST = false;
                         }
                         if(loadProductData) {
-                            firebaseFirestore.collection("PRODUCTS").document(task.getResult().get("product_ID_" + x).toString())
+                            wishlistModelList.clear();
+                            String productId = task.getResult().get("product_ID_" + x).toString();
+                            firebaseFirestore.collection("PRODUCTS").document(productId)
                                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     if (task.isSuccessful()) {
-                                        wishlistModelList.add(new WishlistModel(task.getResult().get("product_image_1").toString()
+                                        wishlistModelList.add(new WishlistModel(productId
+                                                , task.getResult().get("product_image_1").toString()
                                                 , task.getResult().get("product_title").toString()
                                                 , task.getResult().get("product_price").toString()
                                                 , task.getResult().get("cutted_price").toString()
@@ -177,7 +180,6 @@ public class DBqueries {
             }
         });
     }
-
     public static void removeFromWishlist(int index, final Context context) {
         wishList.remove(index);
         Map<String,Object> updateWishlist = new HashMap<>();
@@ -205,9 +207,12 @@ public class DBqueries {
                     String error = task.getException().getMessage();
                     Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
                 }
-                if(ProductDetailsActivity.addToWishlistBtn != null) {
+
+                /*if(ProductDetailsActivity.addToWishlistBtn != null) {
                     ProductDetailsActivity.addToWishlistBtn.setEnabled(true);
-                }
+                }*/
+
+                ProductDetailsActivity.running_wishlist_query = false;
             }
         });
 

@@ -31,10 +31,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,7 +55,6 @@ public class SignUpFragment extends Fragment {
     private FirebaseFirestore firebaseFireStore;
     String userID;
     public static boolean disableCloseBtn = false;
-
 
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
 
@@ -321,30 +323,58 @@ public class SignUpFragment extends Fragment {
                                 userdata.put("phone", mphoneNo.getText().toString());
                                 userdata.put("address", maddress.getText().toString());
 
-
                                 firebaseFireStore.collection("USERS").document(firebaseAuth.getUid())
                                         .set(userdata)
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    Map<String, Object> listSize = new HashMap<>();
-                                                    listSize.put("list_size", (long) 0);
-                                                    firebaseFireStore.collection("USERS").document(firebaseAuth.getUid()).collection("USER_DATA").document("MY_WISHLIST")
+
+                                                    CollectionReference userDataReference = firebaseFireStore.collection("USERS").document(firebaseAuth.getUid()).collection("USER_DATA");
+
+                                                    //// MAP
+                                                    Map<String, Object> wishlistMap = new HashMap<>();
+                                                    wishlistMap.put("list_size", (long) 0);
+
+                                                    //// MAP
+
+                                                    List<String> documentsNames = new ArrayList<>();
+                                                    documentsNames.add("MY_WISHLIST");
+
+                                                    List<Map<String,Object>> documentFields = new ArrayList<>();
+                                                    documentFields.add(wishlistMap);
+
+                                                    for (int x = 0; x < documentsNames.size(); x++) {
+
+                                                        final int finalX = x;
+                                                        userDataReference.document(documentsNames.get(x))
+                                                                .set(documentFields.get(x)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                if (task.isSuccessful()) {
+                                                                    if (finalX == documentsNames.size()-1) {
+                                                                        mainIntent();
+                                                                    }
+                                                                } else {
+                                                                    pbar.setVisibility(View.INVISIBLE);
+                                                                    mregisterBtn.setEnabled(true);
+                                                                    String error = task.getException().getMessage();
+                                                                    Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }
+                                                        });
+
+                                                    }
+
+
+/*                                                    firebaseFireStore.collection("USERS").document(firebaseAuth.getUid()).collection("USER_DATA").document("MY_WISHLIST")
                                                             .set(listSize).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
-                                                            if (task.isSuccessful()) {
-                                                                mainIntent();
-                                                            } else {
-                                                                pbar.setVisibility(View.INVISIBLE);
-                                                                mregisterBtn.setEnabled(true);
-                                                                String error = task.getException().getMessage();
-                                                                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
-                                                            }
+
                                                         }
                                                     });
-
+*/
                                                 } else {
 
                                                     String error = task.getException().getMessage();
