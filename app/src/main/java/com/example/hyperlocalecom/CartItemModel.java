@@ -20,15 +20,17 @@ public class CartItemModel {
 
 
     ///////// cart item
-    private int productImage;
+    private String productId;
+    private String productImage;
     private String productTitle;
     private String productPrice;
     private String cuttedPrice;
-    private int offersApplied;
-    private int productQuantity;
+    private long offersApplied;
+    private long productQuantity;
 
-    public CartItemModel(int type, int productImage, String productTitle, String productPrice, String cuttedPrice, int offersApplied, int productQuantity) {
+    public CartItemModel(int type,String productId, String productImage, String productTitle, String productPrice, String cuttedPrice, long offersApplied, long productQuantity) {
         this.type = type;
+        this.productId = productId;
         this.productImage = productImage;
         this.productTitle = productTitle;
         this.productPrice = productPrice;
@@ -37,11 +39,19 @@ public class CartItemModel {
         this.productQuantity = productQuantity;
     }
 
-    public int getProductImage() {
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(int productImage) {
+    public void setProductImage(String productImage) {
         this.productImage = productImage;
     }
 
@@ -69,19 +79,19 @@ public class CartItemModel {
         this.cuttedPrice = cuttedPrice;
     }
 
-    public int getOffersApplied() {
+    public long getOffersApplied() {
         return offersApplied;
     }
 
-    public void setOffersApplied(int offersApplied) {
+    public void setOffersApplied(long offersApplied) {
         this.offersApplied = offersApplied;
     }
 
-    public int getProductQuantity() {
+    public long getProductQuantity() {
         return productQuantity;
     }
 
-    public void setProductQuantity(int productQuantity) {
+    public void setProductQuantity(long productQuantity) {
         this.productQuantity = productQuantity;
     }
 

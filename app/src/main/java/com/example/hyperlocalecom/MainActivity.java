@@ -3,59 +3,42 @@ package com.example.hyperlocalecom;
 import static com.example.hyperlocalecom.RegisterActivity.setSignUpFragment;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 // import android.widget.Toolbar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
+
+import com.example.hyperlocalecom.databinding.AppBarMainBinding;
 import com.example.hyperlocalecom.ui.home.HomeFragment;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
+//import android.support.v4.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hyperlocalecom.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import javax.annotation.Nullable;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -86,35 +69,91 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        binding = ActivityMainBinding.inflate(getLayoutInflater());
+//
+//        //setContentView(R.layout.activity_main); no
+//        setContentView(binding.getRoot());
+//        setSupportActionBar(binding.appBarMain.toolbar);
+//
+//      //  setSupportActionBar(binding.appBarMain.toolbar);
+//          drawer = binding.drawerLayout;
+//
+////        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+////        binding = AppBarMainBinding.inflate(getLayoutInflater());
+////        setContentView(binding.getRoot());
+////        setSupportActionBar(toolbar);
+////        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//
+//        actionBarLogo = findViewById(R.id.action_bar_logo);
+//
+//
+//
+//      /*  actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.open,R.string.close);
+//        drawer.addDrawerListener(actionBarDrawerToggle);
+//        actionBarDrawerToggle.syncState();
+//
+//     */
+//
+//        // navigationView = binding.navView;
+//        navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.bringToFront();
+//        // Passing each menu ID as a set of Ids because each
+//        // menu should be considered as top level destinations.
+//        mAppBarConfiguration = new AppBarConfiguration.Builder(
+//                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+//                .setOpenableLayout(drawer)
+//                .build();
+////////////////added abhi
+//        NavHostFragment navHostFragment =
+//                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+//        NavController navController = navHostFragment.getNavController();
+//        navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        /////////////////////////added abhi
+//
+//
+//        /////commented abhi
+//      //  NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+//       NavigationUI.setupWithNavController(navigationView, navController);
+//        navigationView.getMenu().getItem(0).setChecked(true);
+//        frameLayout = findViewById(R.id.main_framelayout);
+//
+
+
+        //////////////NEW CODE
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        setSupportActionBar(binding.appBarMain.toolbar);
-        actionBarLogo = findViewById(R.id.action_bar_logo);
-
-         drawer = binding.drawerLayout;
-        //drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-      /*  actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.open,R.string.close);
-        drawer.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-
-     */
-
-        //  navigationView = binding.navView;
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.bringToFront();
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+
+
+        // NavHostFragment navHostFragment =
+        //         (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        // NavController navController = navHostFragment.getNavController();
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);
+
         navigationView.getMenu().getItem(0).setChecked(true);
         frameLayout = findViewById(R.id.main_framelayout);
+
+        actionBarLogo = findViewById(R.id.action_bar_logo);
+
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open, R.string.close);
+        drawer.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+
+        /////////////NEW CODE
 
 
         if (showCart) {
@@ -172,11 +211,11 @@ public class MainActivity extends AppCompatActivity {
 
                     int id = item.getItemId();
 
-                    // if (currentuser != null) {
-                    // drawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
-                    //  @Override
-                    //  public void onDrawerClosed(View drawerView) {
-                    //    super.onDrawerClosed(drawerView);
+//                     if (currentUser != null) {
+//                     drawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+//                     @Override
+//                      public void onDrawerClosed(View drawerView) {
+//                        super.onDrawerClosed(drawerView);
 
                     if (id == R.id.App) {
 
@@ -223,6 +262,8 @@ public class MainActivity extends AppCompatActivity {
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(true);
         }
 
+        invalidateOptionsMenu();
+
     }
 
     @Override
@@ -255,6 +296,33 @@ public class MainActivity extends AppCompatActivity {
         if (currentFragment == HOME_FRAGMENT) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
             getMenuInflater().inflate(R.menu.main, menu);
+            MenuItem cartItem = menu.findItem(R.id.mainCartIcon);
+
+            if (DBqueries.cartList.size() > 0) {
+
+                cartItem.setActionView(R.layout.badge_layout);
+                ImageView badgeicon = cartItem.getActionView().findViewById(R.id.badge_icon);
+                badgeicon.setImageResource(R.mipmap.cart_white);
+                TextView badgeCount = cartItem.getActionView().findViewById(R.id.badge_count);
+                if (DBqueries.cartList.size() < 99) {
+                    badgeCount.setText(String.valueOf(DBqueries.cartList.size()));
+                } else {
+                    badgeCount.setText("99");
+                }
+
+                cartItem.getActionView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (currentUser == null)
+                            signInDialog.show();
+                        else {
+                            goToFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
+                        }
+                    }
+                });
+            } else {
+                cartItem.setActionView(null);
+            }
         }
 
         return true;
@@ -296,13 +364,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-///changed abhi
-  /*  @Override
+
+    ///changed abhi
+    @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
-    } */
+    }
 
 
     private void setFragment(Fragment fragment, int fragmentNo) {
@@ -318,4 +387,3 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
-

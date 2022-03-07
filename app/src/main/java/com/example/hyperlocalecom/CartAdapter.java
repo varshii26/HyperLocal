@@ -1,22 +1,30 @@
 package com.example.hyperlocalecom;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter {
 
     private List<CartItemModel> cartItemModelList;
+    private int lastPosition = -1;
 
     public CartAdapter(List<CartItemModel> cartItemModelList) {
         this.cartItemModelList = cartItemModelList;
@@ -50,16 +58,17 @@ public class CartAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         switch (cartItemModelList.get(position).getType()){
             case CartItemModel.CART_ITEM:
-                int resource = cartItemModelList.get(position).getProductImage();
+                String productId = cartItemModelList.get(position).getProductId();
+                String resource = cartItemModelList.get(position).getProductImage();
                 String title = cartItemModelList.get(position).getProductTitle();
-                int offersApplied = cartItemModelList.get(position).getOffersApplied();
+                long offersApplied = cartItemModelList.get(position).getOffersApplied();
                 String productPrice = cartItemModelList.get(position).getProductPrice();
                 String cuttedPrice = cartItemModelList.get(position).getCuttedPrice();
 
-                ((CartItemViewHolder)holder).setItemDetails(resource,title,productPrice,cuttedPrice,offersApplied);
+                ((CartItemViewHolder)holder).setItemDetails(productId,resource,title,productPrice,cuttedPrice,offersApplied,position);
                 break;
             case CartItemModel.TOTOAL_AMOUNT:
                 String totalItems = cartItemModelList.get(position).getTotalItems();
@@ -72,6 +81,13 @@ public class CartAdapter extends RecyclerView.Adapter {
                 break;
             default:
                 return;
+
+        }
+
+        if (lastPosition < position) {
+            Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.fade_in);
+            holder.itemView.setAnimation(animation);
+            lastPosition = position;
         }
 
     }
@@ -89,6 +105,7 @@ public class CartAdapter extends RecyclerView.Adapter {
         private TextView cuttedPrice;
         private TextView offersApplied;
         private TextView productQuantity;
+        private LinearLayout deleteBtn;
 
         public CartItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,10 +116,11 @@ public class CartAdapter extends RecyclerView.Adapter {
             cuttedPrice = itemView.findViewById(R.id.cutted_price);
             offersApplied = itemView.findViewById(R.id.offers_applied);
             productQuantity = itemView.findViewById(R.id.product_quantity);
+            deleteBtn = itemView.findViewById(R.id.remove_item_btn);
         }
 
-        private void setItemDetails(int resource, String title, String productPriceText, String cuttedPriceText, int offersAppliedNo){
-            productImage.setImageResource(resource);
+        private void setItemDetails(String productId, String resource, String title, String productPriceText, String cuttedPriceText, long offersAppliedNo,int position){
+            Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.mipmap.placeholder_small)).into(productImage);
             productTitle.setText(title);
             productPrice.setText(productPriceText);
             cuttedPrice.setText(cuttedPriceText);
@@ -139,6 +157,16 @@ public class CartAdapter extends RecyclerView.Adapter {
                         }
                     });
                     quantityDialog.show();
+                }
+            });
+
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!ProductDetailsActivity.running_cart_query){
+                        ProductDetailsActivity.running_cart_query = true;
+                        DBqueries.removeFromCart(position, itemView.getContext());
+                    }
                 }
             });
         }

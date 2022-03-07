@@ -222,7 +222,7 @@ public class HomeFragment extends Fragment {
         loadedCategoriesNames.clear();
 
         if (networkInfo != null && networkInfo.isConnected() == true) {
-            //   MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+           //   MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             noInternetConnection.setVisibility(View.GONE);
             categoryRecyclerView.setVisibility(View.VISIBLE);
             homePageRecyclerView.setVisibility(View.VISIBLE);
@@ -241,7 +241,7 @@ public class HomeFragment extends Fragment {
 
 
         } else {
-            //  MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+           //   MainActivity.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             categoryRecyclerView.setVisibility(View.GONE);
             homePageRecyclerView.setVisibility(View.GONE);
@@ -253,10 +253,13 @@ public class HomeFragment extends Fragment {
         }
 
     }
-
+    /*
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
+
+     */
 }
+
