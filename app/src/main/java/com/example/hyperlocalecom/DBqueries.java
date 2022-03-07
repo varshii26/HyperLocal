@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import android.graphics.Color;
@@ -225,7 +227,7 @@ public class DBqueries {
 
     }
 
-    public static void loadCartList(final Context context,Dialog dialog, boolean loadProductData) {
+    public static void loadCartList(final Context context, Dialog dialog, boolean loadProductData, final TextView badgeCount) {
         cartList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_CART")
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -264,11 +266,19 @@ public class DBqueries {
                                         String error = task.getException().getMessage();
                                         Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
                                     }
-
                                 }
                             });
                         }
-
+                    }
+                    if (cartList.size() != 0){
+                        badgeCount.setVisibility(View.VISIBLE);
+                    }else{
+                        badgeCount.setVisibility(View.INVISIBLE);
+                    }
+                    if (DBqueries.cartList.size() < 99) {
+                        badgeCount.setText(String.valueOf(DBqueries.cartList.size()));
+                    } else {
+                        badgeCount.setText("99");
                     }
 
                 } else {

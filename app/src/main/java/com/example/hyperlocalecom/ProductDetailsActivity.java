@@ -1,6 +1,5 @@
 package com.example.hyperlocalecom;
 
-
 import static com.example.hyperlocalecom.MainActivity.showCart;
 import static com.example.hyperlocalecom.RegisterActivity.setSignUpFragment;
 
@@ -67,6 +66,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private Dialog loadingDialog;
     private LinearLayout addToCartBtn;
     private DocumentSnapshot documentSnapshot;
+
+    private TextView badgeCount;
 
     private FirebaseUser currentUser;
 
@@ -175,7 +176,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
                     if (currentUser != null) {
                         if (DBqueries.cartList.size() == 0) {
-                            DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false);
+                            DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false ,badgeCount);
                         }
                         if (DBqueries.wishList.size() == 0) {
                             DBqueries.loadWishlist(ProductDetailsActivity.this, loadingDialog, false);
@@ -401,9 +402,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser != null) {
-            if (DBqueries.cartList.size() == 0) {
+/*            if (DBqueries.cartList.size() == 0) {
                 DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false);
             }
+*/
             if (DBqueries.wishList.size() == 0) {
                 DBqueries.loadWishlist(ProductDetailsActivity.this, loadingDialog, false);
             } else {
@@ -433,18 +435,17 @@ public class ProductDetailsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.search_and_cart_icon, menu);
-
-         cartItem = menu.findItem(R.id.mainCartIcon);
-
-        if (DBqueries.cartList.size() > 0) {
-
+        cartItem = menu.findItem(R.id.mainCartIcon);
             cartItem.setActionView(R.layout.badge_layout);
             ImageView badgeicon = cartItem.getActionView().findViewById(R.id.badge_icon);
             badgeicon.setImageResource(R.mipmap.cart_white);
-            TextView badgeCount = cartItem.getActionView().findViewById(R.id.badge_count);
+            badgeCount = cartItem.getActionView().findViewById(R.id.badge_count);
 
-
-
+        if (currentUser != null){
+            if (DBqueries.cartList.size() == 0) {
+                DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false,badgeCount);
+            }
+        }
             cartItem.getActionView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -454,14 +455,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         Intent cartIntent = new Intent(ProductDetailsActivity.this, MainActivity.class);
                         showCart = true;
                         startActivity(cartIntent);
-
                     }
-
                 }
             });
-        } else {
-            cartItem.setActionView(null);
-        }
         return true;
     }
 
