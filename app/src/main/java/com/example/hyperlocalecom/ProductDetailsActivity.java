@@ -406,6 +406,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false);
             }
 */
+
             if (DBqueries.wishList.size() == 0) {
                 DBqueries.loadWishlist(ProductDetailsActivity.this, loadingDialog, false);
             } else {
