@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class DeliveryActivity extends AppCompatActivity {
 
     private RecyclerView deliveryRecyclerview;
     private Button changeORaddNewAddressBtn;
+    private TextView totalAmount;
     public static final int SELECT_ADDRESS =0;
 
     @Override
@@ -34,6 +36,7 @@ public class DeliveryActivity extends AppCompatActivity {
 
         deliveryRecyclerview = findViewById(R.id.delivery_recyclerview);
         changeORaddNewAddressBtn = findViewById(R.id.change_or_add_address_btn);
+        totalAmount = findViewById(R.id.total_cart_amount);
 
         changeORaddNewAddressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,9 +53,9 @@ public class DeliveryActivity extends AppCompatActivity {
 
         List<CartItemModel> cartItemModelList = new ArrayList<>();
 
-        cartItemModelList.add(new CartItemModel(1,"Price (3 items)","Rs.899/-","Rs.100/-","Rs.999/-","Rs. 212"));
 
-        CartAdapter cartAdapter = new CartAdapter(cartItemModelList);
+
+        CartAdapter cartAdapter = new CartAdapter(cartItemModelList,totalAmount);
         deliveryRecyclerview.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
 

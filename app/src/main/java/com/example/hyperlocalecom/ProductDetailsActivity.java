@@ -429,6 +429,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
             addToWishlistBtn.setSupportImageTintList(ColorStateList.valueOf(Color.parseColor("#9e9e9e")));
             ALREADY_ADDED_TO_WISHLIST = false;
         }
+
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -444,6 +446,13 @@ public class ProductDetailsActivity extends AppCompatActivity {
         if (currentUser != null){
             if (DBqueries.cartList.size() == 0) {
                 DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false,badgeCount);
+            }else{
+                badgeCount.setVisibility(View.VISIBLE);
+                if (DBqueries.cartList.size() < 99) {
+                    badgeCount.setText(String.valueOf(DBqueries.cartList.size()));
+                } else {
+                    badgeCount.setText("99");
+                }
             }
         }
             cartItem.getActionView().setOnClickListener(new View.OnClickListener() {

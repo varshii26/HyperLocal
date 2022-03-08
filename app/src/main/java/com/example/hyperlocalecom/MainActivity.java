@@ -307,6 +307,13 @@ public class MainActivity extends AppCompatActivity {
             if (currentUser != null){
                 if (DBqueries.cartList.size() == 0) {
                     DBqueries.loadCartList(MainActivity.this, new Dialog(MainActivity.this), false,badgeCount);
+                }else{
+                        badgeCount.setVisibility(View.VISIBLE);
+                    if (DBqueries.cartList.size() < 99) {
+                        badgeCount.setText(String.valueOf(DBqueries.cartList.size()));
+                    } else {
+                        badgeCount.setText("99");
+                    }
                 }
             }
 

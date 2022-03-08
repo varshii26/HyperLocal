@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +27,7 @@ public class MyCartFragment extends Fragment {
 
     private RecyclerView cartItemsRecyclerView;
     private Button continueBtn;
-
+    private TextView totalAmount;
 
     private Dialog loadingDialog;
     public static CartAdapter cartAdapter;
@@ -47,23 +50,22 @@ public class MyCartFragment extends Fragment {
 
         cartItemsRecyclerView = view.findViewById(R.id.cart_items_recyclerview);
         continueBtn = view.findViewById(R.id.cart_continue_btn);
-
+        totalAmount = view.findViewById(R.id.total_cart_amount);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         cartItemsRecyclerView.setLayoutManager(layoutManager);
 
-        if(DBqueries.cartItemModelList.size()==0){
+        if (DBqueries.cartItemModelList.size() == 0) {
             DBqueries.cartList.clear();
-            DBqueries.loadCartList(getContext(),loadingDialog,true);
+            DBqueries.loadCartList(getContext(), loadingDialog, true, new TextView(getContext()));
 
-        }else{
+        } else {
             loadingDialog.dismiss();
         }
 
 
-
-         cartAdapter = new CartAdapter(DBqueries.cartItemModelList);
+        cartAdapter = new CartAdapter(DBqueries.cartItemModelList, totalAmount);
         cartItemsRecyclerView.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
 
@@ -71,8 +73,8 @@ public class MyCartFragment extends Fragment {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent deliveryIntent = new Intent(getContext(),AddAddressActivity.class);
-                getContext().startActivity(deliveryIntent);
+loadingDialog.show();
+DBqueries.loadAddresses(getContext(),loadingDialog);
             }
         });
 

@@ -339,15 +339,20 @@ public class SignUpFragment extends Fragment {
                                                     Map<String, Object> cartMap = new HashMap<>();
                                                     cartMap.put("list_size", (long) 0);
 
+                                                    Map<String, Object> myAddressesMap = new HashMap<>();
+                                                    myAddressesMap.put("list_size", (long) 0);
+
                                                     //// MAP
 
                                                     final List<String> documentsNames = new ArrayList<>();
                                                     documentsNames.add("MY_WISHLIST");
                                                     documentsNames.add("MY_CART");
+                                                    documentsNames.add("MY_ADDRESSES");
 
                                                     List<Map<String,Object>> documentFields = new ArrayList<>();
                                                     documentFields.add(wishlistMap);
                                                     documentFields.add(cartMap);
+                                                    documentFields.add(myAddressesMap);
 
                                                     for (int x = 0; x < documentsNames.size(); x++) {
 
