@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +49,7 @@ public class DBqueries {
     public static List<String> cartList = new ArrayList<>();
     public static List<CartItemModel> cartItemModelList = new ArrayList<>();
 
-    public static int selectedAddress=-1;
+    public static int selectedAddress = -1;
 
     public static List<AddressModel> addressModelList = new ArrayList<>();
 
@@ -234,7 +235,7 @@ public class DBqueries {
 
     }
 
-    public static void loadCartList(final Context context, Dialog dialog, boolean loadProductData, final TextView badgeCount) {
+    public static void loadCartList(final Context context, Dialog dialog, boolean loadProductData, final TextView badgeCount,final TextView cartTotalAmount) {
         cartList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_CART")
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -269,10 +270,15 @@ public class DBqueries {
                                                 , task.getResult().get("product_price").toString()
                                                 , task.getResult().get("cutted_price").toString()
                                                 , (long) 0
-                                                , (long) 1));
+                                                , (long) 1
+                                                , (boolean) task.getResult().get("in_stock")));
 
                                         if (cartList.size() == 1) {
                                             cartItemModelList.add(new CartItemModel(CartItemModel.TOTOAL_AMOUNT));
+                                            LinearLayout parent = (LinearLayout) cartTotalAmount.getParent().getParent();
+                                            parent.setVisibility(View.VISIBLE);
+
+
                                         }
 
                                         if (cartList.size() == 0) {
@@ -311,7 +317,7 @@ public class DBqueries {
 
     }
 
-    public static void removeFromCart(final int index, final Context context) {
+    public static void removeFromCart(final int index, final Context context,final TextView cartTotalAmount) {
 
         String removedProductId = cartList.get(index);
         cartList.remove(index);
@@ -336,6 +342,10 @@ public class DBqueries {
                         ProductDetailsActivity.cartItem.setActionView(null);
                     }
                     if (cartList.size() == 0) {
+                        LinearLayout parent = (LinearLayout) cartTotalAmount.getParent().getParent();
+                        parent.setVisibility(View.GONE);
+
+
                         cartItemModelList.clear();
                     }
 
@@ -357,36 +367,36 @@ public class DBqueries {
 
     }
 
-    public static void loadAddresses(final Context context,Dialog loadingDialog) {
+    public static void loadAddresses(final Context context, Dialog loadingDialog) {
         addressModelList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_ADDRESSES")
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
 
                     Intent deliveryIntent;
 
-                    if((long)task.getResult().get("list_size") == 0){
-                         deliveryIntent = new Intent(context, AddAddressActivity.class);
-                         deliveryIntent.putExtra("INTENT","deiveryIntet");
-                    }else{
-                        for(long x=1;x< (long)task.getResult().get("list_size")+1; x++  ){
-                            addressModelList.add(new AddressModel(task.getResult().get("fullname_"+x).toString(),
-                                    task.getResult().get("address_"+x).toString(),
-                                    task.getResult().get("pincode_"+x).toString(),
-                                    (boolean)task.getResult().get("selected_"+x)));
+                    if ((long) task.getResult().get("list_size") == 0) {
+                        deliveryIntent = new Intent(context, AddAddressActivity.class);
+                        deliveryIntent.putExtra("INTENT", "deiveryIntet");
+                    } else {
+                        for (long x = 1; x < (long) task.getResult().get("list_size") + 1; x++) {
+                            addressModelList.add(new AddressModel(task.getResult().get("fullname_" + x).toString(),
+                                    task.getResult().get("address_" + x).toString(),
+                                    task.getResult().get("pincode_" + x).toString(),
+                                    (boolean) task.getResult().get("selected_" + x)));
 
-                            if( (boolean)task.getResult().get("selected_"+x)){
+                            if ((boolean) task.getResult().get("selected_" + x)) {
                                 selectedAddress = Integer.parseInt(String.valueOf(x - 1));
                             }
                         }
-                        deliveryIntent = new Intent(context,DeliveryActivity.class);
+                        deliveryIntent = new Intent(context, DeliveryActivity.class);
                     }
 
                     context.startActivity(deliveryIntent);
 
-                }else{
+                } else {
                     String error = task.getException().getMessage();
                     Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
                 }
