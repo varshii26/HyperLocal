@@ -96,7 +96,6 @@ private String [] stateList ;
             }
         });
 
-
         saveBtn = findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +110,7 @@ private String [] stateList ;
 
                                         loadingDialog.show();
 
-                                       final String fullAddress = flatNo.getText().toString() + " " + locality.getText().toString() + " " +  landmark.getText().toString() + " " + city.getText().toString() + " " + selectedState ;
+                                        final String fullAddress = flatNo.getText().toString() + " " + locality.getText().toString() + " " +  landmark.getText().toString() + " " + city.getText().toString() + " " + selectedState ;
 
                                         Map<String ,Object> addAddress = new HashMap();
                                         addAddress.put("list_size",(long)DBqueries.addressModelList.size()+1);
@@ -121,7 +120,6 @@ private String [] stateList ;
                                         }else{
                                             addAddress.put("fullname_"+String.valueOf((long)DBqueries.addressModelList.size()+1),name.getText().toString()+" - " + mobileNo.getText().toString() + " or " + alternateMobileNo.getText().toString());
                                         }
-
                                         addAddress.put("address"+String.valueOf((long)DBqueries.addressModelList.size()+1),fullAddress);
                                         addAddress.put("pincode_"+String.valueOf((long)DBqueries.addressModelList.size()+1),pincode.getText().toString());
                                         addAddress.put("selected_"+String.valueOf((long)DBqueries.addressModelList.size()+1),true);
@@ -129,10 +127,6 @@ private String [] stateList ;
                                         if(DBqueries.addressModelList.size()>0) {
                                             addAddress.put("selected_" + (DBqueries.selectedAddress + 1), false);
                                         }
-
-
-
-
                                         FirebaseFirestore.getInstance().collection("USERS")
                                                 .document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA")
                                                 .document("MY_ADDRESSES")
@@ -145,29 +139,25 @@ private String [] stateList ;
                                                     }
                                                     if(TextUtils.isEmpty(alternateMobileNo.getText())){
                                                         DBqueries.addressModelList.add(new AddressModel(name.getText().toString() + " - " + mobileNo.getText().toString(),fullAddress,pincode.getText().toString(),true));
-
                                                     }else{
                                                         DBqueries.addressModelList.add(new AddressModel(name.getText().toString() + " - " + mobileNo.getText().toString()+ " or "+ alternateMobileNo.getText().toString(),fullAddress,pincode.getText().toString(),true));
-
                                                     }
 
-
-
-                                                    Intent deliveryIntent= new Intent(AddAddressActivity.this,DeliveryActivity.class);
-                                                    startActivity(deliveryIntent);
+                                                    if (getIntent().getStringExtra("INTENT").equals("deliveryIntent")) {
+                                                        Intent deliveryIntent = new Intent(AddAddressActivity.this, DeliveryActivity.class);
+                                                        startActivity(deliveryIntent);
+                                                    }else {
+                                                        MyAddressesActivity.refreshItem(DBqueries.selectedAddress,DBqueries.addressModelList.size() -1);
+                                                    }
+                                                    DBqueries.selectedAddress = DBqueries.addressModelList.size() - 1;
                                                     finish();
-
-
                                                 }else{
                                                     String error = task.getException().getMessage();
                                                     Toast.makeText(AddAddressActivity.this, error, Toast.LENGTH_SHORT).show();
                                                 }
-
                                                 loadingDialog.dismiss();
-
                                             }
                                         });
-
                                     }else{
                                         mobileNo.requestFocus();
                                         Toast.makeText(AddAddressActivity.this,"Please provide valid mobile no",Toast.LENGTH_SHORT).show();
@@ -182,17 +172,12 @@ private String [] stateList ;
                         }else{
                             flatNo.requestFocus();
                         }
-
                     }else{
                         locality.requestFocus();
                     }
-
                 }else{
                     city.requestFocus();
-
                 }
-
-
             }
         });
     }

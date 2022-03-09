@@ -20,8 +20,11 @@ public class DeliveryActivity extends AppCompatActivity {
 
     private RecyclerView deliveryRecyclerview;
     private Button changeORaddNewAddressBtn;
-    private TextView totalAmount;
     public static final int SELECT_ADDRESS =0;
+    private TextView totalAmount;
+    private TextView fullname;
+    private TextView fullAddress;
+    private TextView pincode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,22 @@ public class DeliveryActivity extends AppCompatActivity {
         deliveryRecyclerview = findViewById(R.id.delivery_recyclerview);
         changeORaddNewAddressBtn = findViewById(R.id.change_or_add_address_btn);
         totalAmount = findViewById(R.id.total_cart_amount);
+        fullname = findViewById(R.id.fullname);
+        fullAddress = findViewById(R.id.address);
+        pincode = findViewById(R.id.pincode);
 
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        deliveryRecyclerview.setLayoutManager(layoutManager);
+
+//        List<CartItemModel> cartItemModelList = new ArrayList<>();
+
+        CartAdapter cartAdapter = new CartAdapter(DBqueries.cartItemModelList,totalAmount,false);
+        deliveryRecyclerview.setAdapter(cartAdapter);
+        cartAdapter.notifyDataSetChanged();
+
+        changeORaddNewAddressBtn.setVisibility(View.VISIBLE);
         changeORaddNewAddressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,20 +64,14 @@ public class DeliveryActivity extends AppCompatActivity {
                 startActivity(myAddressIntent);
             }
         });
+    }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        deliveryRecyclerview.setLayoutManager(layoutManager);
-
-        List<CartItemModel> cartItemModelList = new ArrayList<>();
-
-
-
-        CartAdapter cartAdapter = new CartAdapter(cartItemModelList,totalAmount);
-        deliveryRecyclerview.setAdapter(cartAdapter);
-        cartAdapter.notifyDataSetChanged();
-
-        changeORaddNewAddressBtn.setVisibility(View.VISIBLE);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        fullname.setText(DBqueries.addressModelList.get(DBqueries.selectedAddress).getFullname());
+        fullAddress.setText(DBqueries.addressModelList.get(DBqueries.selectedAddress).getAddress());
+        pincode.setText(DBqueries.addressModelList.get(DBqueries.selectedAddress).getPincode());
     }
 
     @Override

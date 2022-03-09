@@ -45,7 +45,6 @@ public class MyCartFragment extends Fragment {
         loadingDialog.getWindow().setBackgroundDrawable(getContext().getDrawable(R.drawable.slider_background));
         loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         loadingDialog.show();
-
         //////loading dialog
 
         cartItemsRecyclerView = view.findViewById(R.id.cart_items_recyclerview);
@@ -65,7 +64,7 @@ public class MyCartFragment extends Fragment {
         }
 
 
-        cartAdapter = new CartAdapter(DBqueries.cartItemModelList, totalAmount);
+        cartAdapter = new CartAdapter(DBqueries.cartItemModelList, totalAmount,true);
         cartItemsRecyclerView.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
 

@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hyperlocalecom.databinding.AppBarMainBinding;
 import com.example.hyperlocalecom.ui.home.HomeFragment;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -67,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
 
     private TextView badgeCount;
+
+    private int scrollFlags;
+    private AppBarLayout.LayoutParams params;
 
 
     @Override
@@ -137,10 +141,15 @@ public class MainActivity extends AppCompatActivity {
                 .setOpenableLayout(drawer)
                 .build();
 
+//      window = getWindow;
+//      window.addFlag(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         // NavHostFragment navHostFragment =
         //         (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         // NavController navController = navHostFragment.getNavController();
+
+        params = (AppBarLayout.LayoutParams)toolbar.getLayoutParams();
+        scrollFlags = params.getScrollFlags();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -365,6 +374,9 @@ public class MainActivity extends AppCompatActivity {
         setFragment(fragment, fragmentNo);
         if (fragmentNo == CART_FRAGMENT) {
             navigationView.getMenu().getItem(2).setChecked(true);
+            params.setScrollFlags(0);
+        }else{
+            params.setScrollFlags(scrollFlags);
         }
 
     }

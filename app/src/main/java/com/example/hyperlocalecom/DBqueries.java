@@ -53,7 +53,6 @@ public class DBqueries {
     public static List<AddressModel> addressModelList = new ArrayList<>();
 
 
-
     public static void loadCategories(RecyclerView categoryRecyclerView, final Context context) {
         categoryModelList.clear();
         firebaseFirestore.collection("CATEGORIES").orderBy("index").get().
@@ -370,6 +369,7 @@ public class DBqueries {
 
                     if((long)task.getResult().get("list_size") == 0){
                          deliveryIntent = new Intent(context, AddAddressActivity.class);
+                         deliveryIntent.putExtra("INTENT","deiveryIntet");
                     }else{
                         for(long x=1;x< (long)task.getResult().get("list_size")+1; x++  ){
                             addressModelList.add(new AddressModel(task.getResult().get("fullname_"+x).toString(),
@@ -381,7 +381,7 @@ public class DBqueries {
                                 selectedAddress = Integer.parseInt(String.valueOf(x - 1));
                             }
                         }
-                         deliveryIntent = new Intent(context,DeliveryActivity.class);
+                        deliveryIntent = new Intent(context,DeliveryActivity.class);
                     }
 
                     context.startActivity(deliveryIntent);
