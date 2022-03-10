@@ -14,7 +14,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_details);
 
-        Toolbar toolbar= (Toolbar) findViewById((R.id.toolbar));
+        Toolbar toolbar = (Toolbar) findViewById((R.id.toolbar));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("Order Details");
@@ -23,7 +23,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()== android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
 

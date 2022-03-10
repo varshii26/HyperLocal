@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         //         (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         // NavController navController = navHostFragment.getNavController();
 
-        params = (AppBarLayout.LayoutParams)toolbar.getLayoutParams();
+        params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
         scrollFlags = params.getScrollFlags();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -217,12 +217,12 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             MenuItem menuItem;
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
                 menuItem = item;
-
 
 
                 if (currentUser != null) {
@@ -257,13 +257,11 @@ public class MainActivity extends AppCompatActivity {
                     });
 
 
-
 //                     if (currentUser != null) {
 //                     drawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
 //                     @Override
 //                      public void onDrawerClosed(View drawerView) {
 //                        super.onDrawerClosed(drawerView);
-
 
 
                     return true;
@@ -327,11 +325,11 @@ public class MainActivity extends AppCompatActivity {
             ImageView badgeicon = cartItem.getActionView().findViewById(R.id.badge_icon);
             badgeicon.setImageResource(R.mipmap.cart_white);
             badgeCount = cartItem.getActionView().findViewById(R.id.badge_count);
-            if (currentUser != null){
+            if (currentUser != null) {
                 if (DBqueries.cartList.size() == 0) {
-                    DBqueries.loadCartList(MainActivity.this, new Dialog(MainActivity.this), false,badgeCount,new TextView(MainActivity.this));
-                }else{
-                        badgeCount.setVisibility(View.VISIBLE);
+                    DBqueries.loadCartList(MainActivity.this, new Dialog(MainActivity.this), false, badgeCount, new TextView(MainActivity.this));
+                } else {
+                    badgeCount.setVisibility(View.VISIBLE);
                     if (DBqueries.cartList.size() < 99) {
                         badgeCount.setText(String.valueOf(DBqueries.cartList.size()));
                     } else {
@@ -389,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
         if (fragmentNo == CART_FRAGMENT || showCart) {
             navigationView.getMenu().getItem(2).setChecked(true);
             params.setScrollFlags(0);
-        }else{
+        } else {
             params.setScrollFlags(scrollFlags);
         }
 

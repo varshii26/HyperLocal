@@ -235,7 +235,7 @@ public class DBqueries {
 
     }
 
-    public static void loadCartList(final Context context, Dialog dialog, boolean loadProductData, final TextView badgeCount,final TextView cartTotalAmount) {
+    public static void loadCartList(final Context context, Dialog dialog, boolean loadProductData, final TextView badgeCount, final TextView cartTotalAmount) {
         cartList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_CART")
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -243,7 +243,7 @@ public class DBqueries {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     for (long x = 0; x < (long) task.getResult().get("list_size"); x++) {
-                        cartList.add(task.getResult().get("product_ID" + x).toString());
+                        cartList.add(task.getResult().get("product_ID_" + x).toString());
 
                         if (DBqueries.cartList.contains(ProductDetailsActivity.productId)) {
                             ProductDetailsActivity.ALREADY_ADDED_TO_CART = true;
@@ -317,7 +317,7 @@ public class DBqueries {
 
     }
 
-    public static void removeFromCart(final int index, final Context context,final TextView cartTotalAmount) {
+    public static void removeFromCart(final int index, final Context context, final TextView cartTotalAmount) {
 
         String removedProductId = cartList.get(index);
         cartList.remove(index);

@@ -176,7 +176,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
                     if (currentUser != null) {
                         if (DBqueries.cartList.size() == 0) {
-                            DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false, badgeCount,new TextView(ProductDetailsActivity.this));
+                            DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false, badgeCount, new TextView(ProductDetailsActivity.this));
                         }
                         if (DBqueries.wishList.size() == 0) {
                             DBqueries.loadWishlist(ProductDetailsActivity.this, loadingDialog, false);
@@ -225,7 +225,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
                                                         if (DBqueries.cartItemModelList.size() != 0) {
-                                                            DBqueries.cartItemModelList.add(0,new CartItemModel(CartItemModel.CART_ITEM, productId
+                                                            DBqueries.cartItemModelList.add(0, new CartItemModel(CartItemModel.CART_ITEM, productId
                                                                     , documentSnapshot.get("product_image_1").toString()
                                                                     , documentSnapshot.get("product_title").toString()
                                                                     , documentSnapshot.get("product_price").toString()
@@ -362,7 +362,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 if (currentUser == null) {
                     signInDialog.show();
                 } else {
-                    DeliveryActivity.cartItemModelList.clear();
+
                     DeliveryActivity.cartItemModelList = new ArrayList<>();
 
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM, productId
@@ -375,9 +375,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             , (boolean) documentSnapshot.get("in_stock")));
 
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.TOTOAL_AMOUNT));
-                    if(DBqueries.addressModelList.size()==0){
+                    if (DBqueries.addressModelList.size() == 0) {
                         DBqueries.loadAddresses(ProductDetailsActivity.this, loadingDialog);
-                    }else{
+                    } else {
                         loadingDialog.dismiss();
                         Intent deliveryIntent = new Intent(ProductDetailsActivity.this, DeliveryActivity.class);
                         startActivity(deliveryIntent);
@@ -474,7 +474,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         if (currentUser != null) {
             if (DBqueries.cartList.size() == 0) {
-                DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false, badgeCount,new TextView(ProductDetailsActivity.this));
+                DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false, badgeCount, new TextView(ProductDetailsActivity.this));
             } else {
                 badgeCount.setVisibility(View.VISIBLE);
                 if (DBqueries.cartList.size() < 99) {

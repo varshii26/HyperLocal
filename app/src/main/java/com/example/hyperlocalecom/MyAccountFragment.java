@@ -69,8 +69,8 @@ public class MyAccountFragment extends Fragment {
         viewAllAddressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myAddressIntent = new Intent(getContext(),MyAddressesActivity.class);
-                myAddressIntent.putExtra("MODE",MANAGE_ADDRESS);
+                Intent myAddressIntent = new Intent(getContext(), MyAddressesActivity.class);
+                myAddressIntent.putExtra("MODE", MANAGE_ADDRESS);
                 startActivity(myAddressIntent);
             }
         });
