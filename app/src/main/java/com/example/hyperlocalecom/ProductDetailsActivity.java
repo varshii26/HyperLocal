@@ -232,7 +232,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                                     , documentSnapshot.get("cutted_price").toString()
                                                                     , (long) 0
                                                                     , (long) 1
-                                                                    , (boolean) documentSnapshot.get("in_stock")));
+                                                                    , (boolean) documentSnapshot.get("in_stock")
+                                                                    , (long)documentSnapshot.get("max-quantity")));
                                                         }
 
                                                         ALREADY_ADDED_TO_CART = true;
@@ -254,7 +255,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                         }
                                     }
                                 }
-
                             }
                         });
 
@@ -362,7 +362,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 if (currentUser == null) {
                     signInDialog.show();
                 } else {
-
+                    DeliveryActivity.fromCart = false;
+                    loadingDialog.show();
+                    
                     DeliveryActivity.cartItemModelList = new ArrayList<>();
 
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.CART_ITEM, productId
@@ -372,7 +374,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             , documentSnapshot.get("cutted_price").toString()
                             , (long) 0
                             , (long) 1
-                            , (boolean) documentSnapshot.get("in_stock")));
+                            , (boolean) documentSnapshot.get("in_stock")
+                            , (long)documentSnapshot.get("max-quantity")));
 
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.TOTOAL_AMOUNT));
                     if (DBqueries.addressModelList.size() == 0) {

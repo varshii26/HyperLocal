@@ -271,7 +271,8 @@ public class DBqueries {
                                                 , task.getResult().get("cutted_price").toString()
                                                 , (long) 0
                                                 , (long) 1
-                                                , (boolean) task.getResult().get("in_stock")));
+                                                , (boolean) task.getResult().get("in_stock")
+                                                , (long)task.getResult().get("max-quantity")));
 
                                         if (cartList.size() == 1) {
                                             cartItemModelList.add(new CartItemModel(CartItemModel.TOTOAL_AMOUNT));

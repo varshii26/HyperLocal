@@ -26,12 +26,14 @@ public class DeliveryActivity extends AppCompatActivity {
     public static final int SELECT_ADDRESS = 0;
     private TextView totalAmount;
     private TextView fullname;
+    private String name,mobileNo;
     private TextView fullAddress;
     private TextView pincode;
     private Button continueBtn;
     private Dialog loadingDialog;
     private Dialog paymentMethodDialog;
-    private ImageButton paytm;
+    private ImageButton paytm,cod;
+    public static boolean fromCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,6 @@ public class DeliveryActivity extends AppCompatActivity {
         loadingDialog.setCancelable(false);
         loadingDialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.slider_background));
         loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
         //////loading dialog
 
         ///////paymentMethodDialog
@@ -68,6 +69,7 @@ public class DeliveryActivity extends AppCompatActivity {
         paymentMethodDialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.slider_background));
         paymentMethodDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
+        cod = paymentMethodDialog.findViewById(R.id.cod_btn);
         //////paymentMethodDialog
 
 
@@ -99,6 +101,14 @@ public class DeliveryActivity extends AppCompatActivity {
             }
         });
 
+        cod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent optIntent = new Intent(DeliveryActivity.this,OTPverificationActivity.class);
+                startActivity(optIntent);
+            }
+        });
+
         paytm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,7 +123,10 @@ public class DeliveryActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        fullname.setText(DBqueries.addressModelList.get(DBqueries.selectedAddress).getFullname());
+
+        name = DBqueries.addressModelList.get(DBqueries.selectedAddress).getFullname();
+//        mobileNo = DBqueries.addressModelList.get(DBqueries.selectedAddress).geMobileNo();
+        fullname.setText(name + " - " + mobileNo);
         fullAddress.setText(DBqueries.addressModelList.get(DBqueries.selectedAddress).getAddress());
         pincode.setText(DBqueries.addressModelList.get(DBqueries.selectedAddress).getPincode());
     }

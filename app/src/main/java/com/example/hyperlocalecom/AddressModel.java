@@ -1,5 +1,5 @@
 package com.example.hyperlocalecom;
-//my comment
+
 public class AddressModel {
     private String fullname;
     private String address;
