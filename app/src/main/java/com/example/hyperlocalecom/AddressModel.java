@@ -2,15 +2,25 @@ package com.example.hyperlocalecom;
 
 public class AddressModel {
     private String fullname;
+    private String mobileNo;
     private String address;
     private String pincode;
     private Boolean selected;
 
-    public AddressModel(String fullname, String address, String pincode,Boolean selected) {
+    public AddressModel(String fullname, String address, String pincode,Boolean selected,String mobileNo) {
         this.fullname = fullname;
         this.address = address;
         this.pincode = pincode;
         this.selected = selected;
+        this.mobileNo = mobileNo;
+    }
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
     }
 
     public Boolean getSelected() {

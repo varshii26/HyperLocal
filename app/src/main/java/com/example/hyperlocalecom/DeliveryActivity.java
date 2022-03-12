@@ -105,6 +105,7 @@ public class DeliveryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent optIntent = new Intent(DeliveryActivity.this,OTPverificationActivity.class);
+                optIntent.putExtra("mobileNo",mobileNo.substring(0,10));
                 startActivity(optIntent);
             }
         });
@@ -125,7 +126,7 @@ public class DeliveryActivity extends AppCompatActivity {
         super.onStart();
 
         name = DBqueries.addressModelList.get(DBqueries.selectedAddress).getFullname();
-//        mobileNo = DBqueries.addressModelList.get(DBqueries.selectedAddress).geMobileNo();
+        mobileNo = DBqueries.addressModelList.get(DBqueries.selectedAddress).getMobileNo();
         fullname.setText(name + " - " + mobileNo);
         fullAddress.setText(DBqueries.addressModelList.get(DBqueries.selectedAddress).getAddress());
         pincode.setText(DBqueries.addressModelList.get(DBqueries.selectedAddress).getPincode());
