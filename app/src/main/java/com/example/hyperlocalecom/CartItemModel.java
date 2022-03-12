@@ -1,5 +1,8 @@
 package com.example.hyperlocalecom;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CartItemModel {
 
     //CART ITEMS
@@ -30,6 +33,8 @@ public class CartItemModel {
     private long maxQuantity;
     private boolean inStock;
 
+    private List<String> qtyIDs;
+
     public CartItemModel(int type,String productId, String productImage, String productTitle, String productPrice, String cuttedPrice, long offersApplied, long productQuantity,boolean inStock,long maxQuantity) {
         this.type = type;
         this.productId = productId;
@@ -41,6 +46,15 @@ public class CartItemModel {
         this.productQuantity = productQuantity;
         this.maxQuantity = maxQuantity;
         this.inStock = inStock;
+        qtyIDs = new ArrayList<>();
+    }
+
+    public List<String> getQtyIDs() {
+        return qtyIDs;
+    }
+
+    public void setQtyIDs(List<String> qtyIDs) {
+        this.qtyIDs = qtyIDs;
     }
 
     public long getMaxQuantity() {

@@ -9,6 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,6 +38,8 @@ public class MyAccountFragment extends Fragment {
 
     public static final int MANAGE_ADDRESS = 1;
     public Button viewAllAddressButton;
+    private TextView name,email;
+    private LinearLayout layoutContainer ;
 
     /**
      * Use this factory method to create a new instance of
@@ -65,6 +73,17 @@ public class MyAccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_account, container, false);
+
+        layoutContainer = view.findViewById(R.id.account_layout_container);
+
+        name = view.findViewById(R.id.username);
+        email = view.findViewById(R.id.user_email);
+
+
+        name.setText(DBqueries.fullname);
+        email.setText(DBqueries.email);
+
+
         viewAllAddressButton = view.findViewById(R.id.view_all_addresses_btn);
         viewAllAddressButton.setOnClickListener(new View.OnClickListener() {
             @Override

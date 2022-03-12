@@ -2,6 +2,7 @@ package com.example.hyperlocalecom;
 
 import static com.example.hyperlocalecom.RegisterActivity.setSignUpFragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 // import android.widget.Toolbar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hyperlocalecom.databinding.AppBarMainBinding;
 import com.example.hyperlocalecom.ui.home.HomeFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 
@@ -40,6 +44,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.hyperlocalecom.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int ACCOUNT_FRAGMENT = 4;
 
     public static Boolean showCart = false;
+    public static Activity mainActivity;
+    public static boolean resetMainActivity = false;
 
     ActionBarDrawerToggle actionBarDrawerToggle;
     private int currentFragment = -1;
@@ -71,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
     private int scrollFlags;
     private AppBarLayout.LayoutParams params;
+
+    private TextView fullname,email;
 
 
     @Override
@@ -151,11 +161,16 @@ public class MainActivity extends AppCompatActivity {
         params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
         scrollFlags = params.getScrollFlags();
 
+
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);
 
         navigationView.getMenu().getItem(0).setChecked(true);
         frameLayout = findViewById(R.id.main_framelayout);
+
+        fullname = findViewById(R.id.main2_fullname);
+        email = findViewById(R.id.main2_email);
 
         actionBarLogo = findViewById(R.id.action_bar_logo);
 
@@ -282,7 +297,30 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser == null) {
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         } else {
+            FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        DBqueries.fullname = task.getResult().getString("fullname");
+                        DBqueries.email = task.getResult().getString("email");
+
+                        fullname.setText(DBqueries.fullname);
+                        email.setText(DBqueries.email);
+
+                    }else{
+                        String error = task.getException().getMessage();
+                        Toast.makeText(MainActivity.this,error,Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(true);
+        }
+
+        if(resetMainActivity){
+            resetMainActivity = false ;
+            setFragment(new HomeFragment(),HOME_FRAGMENT);
         }
 
         invalidateOptionsMenu();

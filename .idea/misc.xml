@@ -20,6 +20,7 @@
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/fragment_gallery.xml" value="0.1296875" />
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/fragment_my_account.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/fragment_my_cart.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/fragment_sign_in.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/fragment_sign_up.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/fragment_slideshow.xml" value="0.134375" />
@@ -27,11 +28,13 @@
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/horizontal_item_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/horizontal_scroll_item_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/loading_progress_dialog.xml" value="0.536" />
+        <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/my_addresses_layout.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/nav_header_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/payment_method.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/product_description_layout.xml" value="0.13489583333333333" />
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/product_details_only_layout.xml" value="0.13489583333333333" />
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/product_images_layout.xml" value="0.134375" />
-        <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/shipping_details_layout.xml" value="0.13489583333333333" />
+        <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/layout/shipping_details_layout.xml" value="0.536" />
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/menu/activity_main_drawer.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/menu/main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/HP/Downloads/HyperlocalEcom-master/app/src/main/res/menu/search_and_cart_icon.xml" value="0.25416666666666665" />
@@ -48,7 +51,6 @@
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/activity_delivery.xml" value="0.2" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/activity_my_addresses.xml" value="0.264" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/activity_order_details.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/activity_otpverification.xml" value="0.264" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/activity_product_details.xml" value="0.2" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/addresses_item_layout.xml" value="0.2" />
         <entry key="..\:/Users/Rajvi/AndroidStudioProjects/HyperLocalEcom/app/src/main/res/layout/app_bar_main.xml" value="0.25" />
